@@ -1,0 +1,126 @@
+<!-- <script src="//cdn.ckeditor.com/4.4.3/full-all/ckeditor.js"></script>
+<script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script> -->
+<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.10/font/summernote.ttf" >
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.10/font/summernote.woff">
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-7">
+      <%= form_for [:admin, @company, @blog_post],  :html => {:class => "form_blog_post"}, data: { turbolinks: false } do |f| %>
+        
+        <div class="form-group">
+          <%= f.label :title %>
+          <%= f.text_field :title, :class => "form-control" , :placeholder => "Enter the title"%>
+        </div>
+        <%if params[:action] == "edit" %>
+          <div class="form-group">
+            <%= f.label :slug %>
+            <%= f.text_field :slug, :class => "form-control" , :placeholder => "Change slug"%>
+          </div>
+        <%end%>
+        <div class="form-group">
+          <%= f.label "Tag Line" %>
+          <%= f.text_area :description, :class => "form-control", length:'120' %>
+        </div>
+        <div class="form-group">
+          <%= f.label "Body" %>
+          <%= f.text_area :body, :class => "form-control summernote ", length:'120' %>
+        </div>
+        <div class="form-group">
+          <%= f.label "Category" %><br>
+          <%= f.select('post_category_ids', PostCategory.where(status: "1", deleted: "0").map{ |a| [a.name,a.id] }, {:selected => f.object.post_category_ids , disabled: "0" , :unique => true},{:class => "form-control", :multiple => true  }) %>
+        </div>
+        <div class="form-group">
+          <%= f.label "Tags" %>
+          <%= f.text_field :tags, :placeholder => "Enter tags", :class => "form-control" %>
+        </div>
+        <div class="form-group hidden">
+          <%= f.hidden_field :keywords %>
+        </div>
+        <!-- <div class="form-group">
+          <%#= f.label "Schedule Date and time" %>
+                <div class='input-group date' id='datetimepicker1'>
+                    <%#= f.text_field :published_at , class: "form-control"%>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div> -->
+        <div class="form-group">
+          <%= f.label :featured_image %>
+          <%= f.file_field :featured_image %>
+          <% if params[:action] != "new" %>
+            <% if @blog_post.featured_image.present? %>
+              <%= image_tag(@blog_post.featured_image.url(:medium), :class => "valign", id:"featured_image_id") %>
+              <span >
+                <%= link_to 'Remove image', "#" ,data: { confirm: 'Are you sure?' } ,id:"remove_featured_image" %>
+              </span>
+            <% end%>
+          <% end%>
+        </div>
+            <%= f.label :private_post %><br>
+        <div class="form-group checkbox">
+          <label>
+            <% status = (params[:action] != "new" && @blog_post.private == true) ? true : false %>
+              <%= f.check_box :private, :checked => status %>
+              <%= f.label :private %>
+          </label>
+        </div>
+
+         <%= f.label :visible_to_followers %><br>
+        <div class="form-group checkbox">
+          <label>
+            <% status = (params[:action] != "new" && @blog_post.visible_to_followers == true) ? true : false %>
+              <%= f.check_box :visible_to_followers, :checked => status %>
+              <%= f.label :visible_to_followers %>
+          </label>
+        </div>
+       <!--  <%#if is_manager? || is_super_admin?%>
+          <div class="form-group">
+            <%#if (params[:action] != "new" && @blog_post.publish == true) %>
+              <%#= f.check_box :publish ,:checked => true %>
+              <%#= f.label :publish %>
+            <%#else%>
+              <%#= f.check_box :publish ,:checked => false %>
+              <%#= f.label :publish %>
+            <%#end%>
+          </div>
+        <%#end%> -->
+        <div class="form-group">
+          <%= f.submit "Save and Publish", :class => "btn btn-primary" %>
+          <%= f.submit "Save as Draft" , :class => "btn btn-primary" %>
+        </div>
+        <div class="form-group">
+          <%= hidden_field_tag "image_ids"  %>
+        </div>
+      <%end%>
+      
+      <div class="hidden">
+        <%= form_tag upload_post_image_admin_company_blog_posts_path, :remote => true, :id => "blog_post_form_upload", class:"blog_post_upload_image_btn", :data => { :type => :json }, :authenticity_token => true, :multipart => true do %>
+          <div class="form-group">
+            <%= file_field_tag :blog_post_image, accept: 'image/png,image/gif,image/jpeg,image/jpg' %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>  
+<style>
+.card-header.note-toolbar .note-color .dropdown-toggle {
+    width: 20px;
+    height: 30px;
+    padding-left: 5px;
+    }
+    .content-wrapper {
+      overflow:hidden;
+    }
+</style>  
+<script>
+ $('#blog_post_slug').on("blur", function(){
+    var slug_val = $("#blog_post_slug").val().trim().toLowerCase().split(" ").join("-").replace(/-{2,}/g, '-')
+    $('#blog_post_slug').val(slug_val);
+  });
+  // $('#datetimepicker1').datetimepicker();
+</script>

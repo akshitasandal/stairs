@@ -1,0 +1,20 @@
+.section.center.zero-margin
+  br/
+  h5
+    strong.red-text MOST VIEWED COMPANIES
+  br/
+  .container
+    /.owl-carousel.owl-theme
+      - @most_view.each do |most_view|
+        .tile
+          .homepage_company_image
+            /= link_to  company_path(most_view.slug)
+            .image-center-div
+              = image_tag(most_view.logo.url(:original), :class=> "center"  )
+            br/
+          h6.new-tile 
+            = link_to most_view.slug, company_path(most_view.slug), :class => "red-text",  data: { turbolinks: false }
+        end 
+        /.row.center
+          = button_to 'Read More', companies_path, method: :get, :params => {:orders => 'most_viewed'},:class =>"download-button btn-large waves-effect blue-grey red accent-2"
+          end

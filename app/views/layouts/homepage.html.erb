@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <title>
+      <%= content_for?(:title) ? yield(:title) : "Stairs" %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>stairs</title>
+      <%= stylesheet_link_tag 'homepage', media: 'all' %>
+      <%= stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" %>
+    <%#= stylesheet_link_tag "http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css" %>
+    <%= javascript_include_tag 'homepage' %>
+    <%= csrf_meta_tags %>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBrSAusKcgMdDh2XYRCALFNZz9CnIPGpls&libraries=places&sensor=false"></script>
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </head>
+    <body id="page-top">
+      <%= render 'layouts/homepage/header' %>
+      <%= yield %>
+      <%= render 'layouts/homepage/footer' %>
+     <a href="#" class="scrollToTop"><i class="fa fa-angle-up font-weight-bold"></i></a>
+
+      
+       <!-- <script src="assets/homepage/jquery.min.js"></script> -->
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.2/masonry.pkgd.min.js"></script>
+      <script>  
+       
+
+
+        (function() {
+          // Masonry grid setup
+          $(".grid").masonry({
+            itemSelector: ".grid__item",
+            columnWidth: ".grid__sizer",
+            gutter: 15,
+            percentPosition: true
+          });
+          // Image replacement handler
+          $(document).on("click", ".js-button", function() {
+            var imageSrc = $(this).parents(".grid__item").find("img").attr("src");
+            $(".js-download").attr("href", imageSrc);
+            $(".js-modal-image").attr("src", imageSrc);
+            $(document).on("click", ".js-heart", function() {
+              $(this).toggleClass("active");
+            });
+          });
+        })();
+        $(window).on("scroll",function(){
+          if ($(this).scrollTop() > 20) {
+              $(".scrollToTop").fadeIn(1000)
+          } else {
+              $(".scrollToTop").fadeOut(1000);
+          }
+        });
+
+        //Click event to scroll to top
+        $(".scrollToTop").click(function(){
+            $('html, body').animate({scrollTop : 0},500);
+            return false;
+        });
+      </script>
+    </body>
+</html>

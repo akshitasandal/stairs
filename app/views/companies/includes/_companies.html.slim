@@ -1,0 +1,16 @@
+br 
+br
+.container
+  .row
+    - @companies.each do |company|
+      .col.m3
+        .tile
+          .homepage_company_image
+            .blog_featured_image.valign-wrapper
+              = link_to  company_path(company.slug)
+                = image_tag(company.logo.url(:original), :class=> "responsive-img" , :style => "margin-top:25px"  )
+              br/
+          h6.new-tile 
+            = link_to company.name ,company_path(company.slug), :class => "red-text center" ,data: { turbolinks: false }
+          h6.new-tile
+            /= company.city.name,company_path(recent_add.slug), :class => "red-text" ,data: { turbolinks: false }

@@ -1,0 +1,49 @@
+nav.white role="navigation" 
+  .nav-wrapper.row
+    .valign-wrapper.left
+      .col.m4.s12
+        a href="#{root_path}" 
+          = image_tag("logo.png" , :class => "valign-logo")
+      a.button-collapse.black-text data-activates="mobile-demo" href="#" 
+        i.material-icons menu
+      ul.left.hide-on-med-and-down.col.m9.navigation-links-row
+        li
+          = link_to 'Home', root_path , :class=>"black-text", data: {turbolinks: false}
+        /li
+          /= link_to 'About', page_path('about') , :class=>"black-text"
+        li
+          = link_to 'Companies', '/companies', :class=>"black-text", data: {turbolinks: false}
+        li 
+          = link_to 'Categories', '/categories', :class => "black-text", data: {turbolinks: false}
+        -if user_signed_in?
+          li 
+            /= link_to 'Profile', user_path(current_user) , :class=>"black-text"
+            /-if !is_super_admin?
+              /-if current_user.companies.length == 0 
+                li
+                  /= link_to 'Add Company', new_company_path , :class=>"black-text"
+              /-else
+                li
+                  - company_slug = current_user.companies[0].slug
+                  = link_to 'Show Company',company_path( company_slug ) , :class=>"black-text", id: "show_company_blog"
+              /end
+            end
+            /-if is_super_admin?
+              li
+                /= link_to 'My Companies', companies_path(:own_companies => true), :class=>"black-text", data: {turbolinks: false}
+            end
+            
+
+        end
+        -if user_signed_in? && @company.try(:id).present?
+          li
+            = link_to 'Blog', posts_companies_path, :company_id => nil ,:class=>"black-text", id:"company_blog_for_index", data: { turbolinks: false }
+        -elsif user_signed_in? && !@company.try(:id).present?
+          li
+            = link_to 'Blog' , posts_companies_path ,:company_id => nil ,:class=>"black-text", data: { turbolinks: false }        
+        -else
+          li
+            = link_to 'Blog', posts_companies_path, :company_id => nil ,:class=>'black-text' , data: { turbolinks: false }
+        end
+        ul.right.col.m4
+      

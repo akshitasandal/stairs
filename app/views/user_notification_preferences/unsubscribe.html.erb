@@ -1,0 +1,8 @@
+<h4>Unsubscribe from Mysite Emails</h4>
+<p>By unsubscribing, you will no longer receive newsletters...</p>
+<%= form_for(@user, url: user_notification_preferences_path(id: @user.id)
+) do |f| %>
+  <%= f.hidden_field(:subscription, value: false) %>
+  <%= f.submit 'Unsubscribe' , class: "btn btn-primary" %>
+  <%= link_to 'Cancel', root_url, class: "btn btn-primary" %>
+<% end %>

@@ -1,0 +1,77 @@
+<h1>Listing Blog Posts</h1><br>
+<% if is_super_admin?   %>
+<br>
+  <div class="container">
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Select Company</label>
+        <div class="col-lg-2" align="center">
+          <%= select_tag 'company_id',options_for_select(@companies.map{|a| a.slug},  selected: params[:company_id]),{ :include_blank => "Select Company" , :class => "form-control"} %>
+        </div>
+      <label class="col-lg-2" align="center">Status</label>
+        <div class="col-lg-2" align="center">
+          <select name="publish" id="publish" class="form-control"  >
+            <option value = "" > Status</option>
+            <option value = "<%=1%>" > Publish</option>
+            <option value = "<%=0%>"> Draft</option>
+          </select>
+        </div>
+      <div class="col-lg-4">
+        <div class="action">
+          <%= submit_tag "Search Posts" , id: "search_posts" , :class => "btn btn-primary",name: nil %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+<%end%>
+<div class="filtered_content">
+  <table class="table my_table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Category</th>
+        <th><center>Company Name</center></th>
+        <th><center>Status</center> </th>
+        <th><center>Views</center></th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @blog_posts.each do |blog_post| %>
+        <tr>
+          <td><%= blog_post.title %></td>
+          <td>
+            <% @post_category = blog_post.post_categories.where(:status => "1").map(&:name) %>
+      			<%= raw(@post_category.map{|cat| cat}.join(",") ) %>
+          </td>
+          <td align="center"><%= blog_post.company.slug%></td>
+          <td align="center">
+            <%= blog_post.publish ? "Published" : "Draft" %>
+          </td>
+          <td align="center">
+            <% views = View.where(:view_type_id => 5).where(:object_id => blog_post.id).count %>
+            <%if views.present?%>
+              <%= views %>
+            <%end%>
+          </td>
+          <% company = blog_post.company.slug %>
+          <% user = blog_post.user.username %>
+          <td><%= link_to 'Show', blog_post_blog_posts_path(company,user, blog_post), :target => "_blank" , class: "btn btn-primary btn-xs"%>
+            <%= link_to 'Edit', edit_admin_company_blog_post_path(company, blog_post), class: "btn btn-primary btn-xs", class: "btn btn-primary btn-xs" %>
+            <%= link_to 'Destroy',admin_company_blog_post_path(company ,blog_post) , method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-primary btn-xs" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+  <br>
+  <%if policy(BlogPost).new? && !is_super_admin? && current_user.company.present?%>
+  <div class="form-group">
+    <%= link_to 'New Blog Post', new_admin_company_blog_post_path(:company_id => current_user.company.slug), :class => "btn btn-primary" %>
+    <%= link_to "Drafts", drafts_admin_company_blog_posts_path(:company_id => current_user.company.slug) , :class => "btn btn-primary"%>
+  </div>
+  <%elsif is_super_admin? && @company.present?%>
+  <div class ="form-group">
+    <%= link_to 'New Blog Post', new_admin_company_blog_post_path(:company_id => params[:company_id]), :class => "btn btn-primary" %>
+  </div>
+  <%end%>

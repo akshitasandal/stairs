@@ -1,0 +1,7 @@
+<% if @followed_users.present?  %>
+  <%= render "admin/users/user_list" %>
+<% else %>
+  <div class="center ">
+    <h5> Followed User Not Found </h5>
+<br/>
+<%end%>

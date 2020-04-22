@@ -1,0 +1,38 @@
+<h3>Sign Up</h3>
+<br>
+<div class="container">
+  <div class="row">
+    <%= form_for [:admin, @user], :html => {:class => "col-md-7 user_form"}, data: { turbolinks: false } do |f| %>
+      <% if is_super_admin? %>
+        <div class="form-group"> 
+         <%= f.label :company_id  %>
+          <%= f.select 'company_id',options_for_select(@companies.map{|a| [ a.slug, a.id]},  selected: f.object.company_id),{ :include_blank => "Select company" }, {:class => "form-control"} %>
+        </div>
+      <%end%>
+      <div class="form-group">
+        <%= f.label :first_name %>
+        <%= f.text_field :first_name,  class: ' form-control validate' %>
+      </div>
+      <div class="form-group">
+        <%= f.label :last_name %>
+        <%= f.text_field :last_name,  class: 'form-control validate' %>
+      </div>
+      <div class="form-group">
+        <%= f.label :email %>
+        <%= f.email_field :email, class: 'form-control validate' %>
+      </div>
+      <div class="form-group">
+        <%= f.label :password %>
+        <%= f.password_field :password, class: 'form-control validate' %>
+      </div>
+      <div class="form-group">
+        <%= f.label :password_confirmation  %>
+        <%= f.password_field :password_confirmation, class: 'form-control validate' %>
+        <br>
+        <%= f.submit 'Sign up', :class => 'btn btn-primary' %>
+      </div>
+    <%end%>
+    
+  </div>
+</div>
+

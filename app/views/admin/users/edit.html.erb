@@ -1,0 +1,80 @@
+<h3>Edit user</h3>
+<br>
+<div class="container">
+  <div class="row">
+    <%= form_for [:admin, @user], :html => {:class => "col-md-7 user_form", :id => "edit_user_form"}, data: { turbolinks: false } do |f| %>
+      <% if is_super_admin? && @companies.present? %>
+        <div class="form-group"> 
+         <%= f.label :company_id  %>
+          <%= f.select 'company_id',options_for_select(@companies.map{|a| [ a.slug, a.id]},  selected: f.object.company_id),{ :include_blank => "Select company" }, {:class => "form-control"} %>
+        </div>
+      <%end%>
+      <% if is_super_admin?  %>
+        <div class="form-group">
+          <%= f.label :role_id  %><br>
+          <%= f.select('role_id', @role.map{|a| [ a.name, a.id]},   {selected: f.object.role_id, :placeholder => "Assign Role" }, {:class => "form-control col-md-7",  :multiple => true}) %>
+        </div>
+      <%end%>
+      <% if is_admin?  %>
+        <div class="form-group">
+          <%= f.label :role_id  %><br>
+          <%= f.select('role_id', @role.map{|a| [ a.name, a.id]},   {selected: f.object.role_id, :placeholder => "Assign Role" }, {:class => "form-control col-md-7",  :multiple => true}) %>
+        </div>
+      <%end%>
+      <div class="form-group">
+        <%= f.label :first_name %>
+        <%= f.text_field :first_name, :autofocus => true, class: 'form-control validate' %>
+      </div>
+        
+      <div class="form-group">
+        <%= f.label :last_name %>
+        <%= f.text_field :last_name, :autofocus => true, class: 'form-control validate' %>
+      </div>
+      <div class="form-group">
+        <%= f.label :email %>
+        <%= f.email_field :email, class: 'form-control' %>
+      </div>
+     
+      <div class="form-group">
+        <%= f.label :bio %>
+        <%= f.text_area :bio , class: 'form-control validate' %>
+      </div>
+      <div class="form-group">
+        <%= f.label :skill %>
+        <%= f.text_field :skills, class: 'form-control validate' %>
+      </div>
+      <div class="form-group">
+        <%= f.label :avatar %></h4>
+        <div>
+          <%= image_tag @user.avatar.url(:medium,timestamp:false) %>
+        </div>
+       <br>
+      <div class="file-field form-group">
+        <%= f.file_field :avatar %>
+      </div>
+    </div>
+      <%#= f.hidden_field :reset_password_token%>
+      <div class="form-group">
+        <%= f.label :password, 'New password' %>
+        <%= f.password_field :password, autofocus: true, autocomplete: 'off', class: 'form-control' %>
+      </div>
+      <div class="form-group">
+        <%= f.label :password_confirmation, 'Confirm new password' %>
+        <%= f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control' %>
+      </div>
+        <%= f.submit 'Update', :class => 'btn btn-primary' %>
+    <%end%>
+
+
+  </div>
+</div>
+<style>
+  .btn-group > .btn:first-child {
+    margin-left: 0;
+    width: 653px;
+    text-align: left;
+}
+</style>
+<script type="text/javascript">
+  $("#user_role_id").multiselect('select', <%= @role_id %>);
+</script>

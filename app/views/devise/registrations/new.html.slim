@@ -1,0 +1,24 @@
+br/
+.container
+  .row
+    /= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :role => 'form', :class=> 'col s12 new_user'}) do |f|
+      h5.valign.center Sign Up
+      = devise_error_messages!
+      .input-field.col.s12
+        = f.label :first_name
+        = f.text_field :first_name,  class: 'validate' 
+      .input-field.col.s12
+        = f.label :last_name
+        = f.text_field :last_name,  class: 'validate' 
+      .input-field.col.s12
+        = f.label :email
+        = f.email_field :email, class: 'validate'
+      .input-field.col.s12
+        = f.label :password
+        = f.password_field :password, class: 'validate'
+      .input-field.col.s12
+        = f.label :password_confirmation 
+        = f.password_field :password_confirmation, class: 'validate'
+        = f.submit 'Sign up', :class => 'btn waves-effect waves-light red accent-2'
+    end
+

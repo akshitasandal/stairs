@@ -1,0 +1,63 @@
+.container
+		h4.red-text Visible followers  Posts
+		- @post_company_followers.each do |blog_post|
+			-if blog_post.present?
+				- @company= blog_post.company
+				- @user = User.find_by(:id => @company.user_id).username
+				.col.s12.m4
+					.card
+						.card-image.dubble-post-image-div
+					      	/= link_to (blog_post.featured_image.url(:original)),  :class=> "single_featured_image" , :rel => 'blog' , :data => {url: image_url(blog_post.id)} do
+					      	-if blog_post.featured_image.present?
+					      		-@company = blog_post.company
+					        	= link_to image_tag(blog_post.featured_image.url(:original), :class => "valign"), blog_post_blog_posts_path(@company,@user,blog_post ) ,data: { turbolinks: false }
+					        -elsif blog_post.blog_post_images.present?
+					        	-@company = blog_post.company
+					        	= link_to image_tag(blog_post.blog_post_images.first.blog_post_image.url(:medium),:class => "valign"),blog_post_blog_posts_path(@company,@user,blog_post) ,data: { turbolinks: false }
+					        -else
+					        	- @company = blog_post.company
+					        	= link_to image_tag("missing.png"),blog_post_blog_posts_path(@company,@user, blog_post),data: { turbolinks: false }
+
+				   		.card-content
+							span.card-title.triple-post-title 
+								-@company = blog_post.company
+
+								strong.red-text = link_to (blog_post.title),blog_post_blog_posts_path(@company, @user, blog_post),class:"red-text", data: { turbolinks: false }
+							p
+								- if strip_tags(blog_post.body).length > 200
+									= truncate(strip_tags(blog_post.body), length: 200)+ "...."
+									-@company = blog_post.company
+									= link_to "read more", blog_post_blog_posts_path(@company,@user, blog_post),class:"triple-post-link"
+						 		-else
+						 			= strip_tags(blog_post.body)
+							.card-action.card-link-color
+								- if blog_post.user_id.present?
+								    -user_id = blog_post.user_id
+								    -user = User.find_by_id(user_id)
+								    - if user.company.present? 
+								    	- company = user.company.slug
+								    -if user.first_name.present?
+								    	-user = user.username
+								    -else
+								    	-user = user.username
+									span = link_to (user), company_user_path( @company,user), data: { turbolinks: false }
+									= " | "
+								-if blog_post.tags.present?
+									- @tags=blog_post.tags.split(',')
+									-@company = blog_post.company
+								 	span = raw(@tags.map{|tag| raw(link_to(tag, tag_name_blog_posts_path(@company,:tag_name => [tag.parameterize].join("-"))))}.join(', '))
+									= " | "
+								-@company = blog_post.company
+								span = link_to (time_ago_in_words(blog_post.created_at) +" ago"), blog_post_blog_posts_path(@company,@user, blog_post)
+								= " | "
+								- if blog_post.post_categories.present?
+								- @post_category = blog_post.post_categories.map(&:name)
+								-@company = blog_post.company
+		    					span = raw(@post_category.map{|cat| raw(link_to(cat,category_name_blog_posts_path(@company,:category_name => [cat.parameterize].join("-"))))}.join(', '))
+								/= " | "
+center
+ 	/= will_paginate @blog_posts 
+
+
+
+

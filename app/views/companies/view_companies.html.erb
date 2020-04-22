@@ -1,0 +1,80 @@
+<% provide(:title, "Search Companies") %>
+<div class="main">
+  <div class="company-banner-section">
+    <div class="banner-title">
+    <div class="container">
+      <h1>Companies</h1>
+        <div class="banner-form">
+          <%= form_tag companies_path, :method => "get" ,  data: { turbolinks: false },  enforce_utf8: false  do %>
+            <div class="form-group">
+              <!-- <label for="exampleInputEmail1">Locations</label>
+              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Chandigarh">
+            </div> -->
+             <%= label_tag :locations %>
+              <%= select_tag 'city_id', options_for_select(@city.collect{ |u| u.name},  selected: params[:city_id]  ) , {:include_blank => 'Select Location', class: "form-control"}%>
+              <i class="fa fa-sort-down"></i>
+            </div>
+            <div class="form-group">
+             <!--  <label for="exampleInputPassword1">Categories</label>
+              <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Information Technology"> -->
+              <%= label_tag :Categories %>
+             <%= select_tag 'functional_area_id',
+              options_for_select(@functional_area.collect{|a| a.name }, selected: params[:functional_area_id] ), {:include_blank => 'Select Category', class: "form-control"} %>
+              <i class="fa fa-sort-down"></i>
+            </div>
+            <span class="sort-slider">Sort</span> 
+            <div class="slideshow-container">
+              <div class="mySlides">
+                <h3>New Added</h3>
+              </div>
+              <div class="mySlides">
+               <h3>Most Viewed</h3>
+              </div>
+              <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+              <a class="next" onclick="plusSlides(1)">&#10095;</a>
+            </div>
+          <% end %>
+            <button type="submit" value="Search Companies" class="btn" id="generate-url" data-turbolinks="false">Search Companies</button>
+        </div>
+      </div>
+    </div><!-- banner-title -->
+  </div><!-- company-banner-section-->
+  <div class="container p-0">
+    <div id="companies">
+      <%= render 'companies/includes/view_all_companies' %>
+    </div><!-- company-second-section-->
+  </div><!--container -->
+<%#= will_paginate @companies %>
+
+</div><!-- main -->
+
+<script>
+
+     var slideIndex = 1;
+      showSlides(slideIndex);
+
+      function plusSlides(n) {
+        showSlides(slideIndex += n);
+      }
+
+      function currentSlide(n) {
+        showSlides(slideIndex = n);
+      }
+
+      function showSlides(n) {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        var dots = document.getElementsByClassName("dot");
+        if (n > slides.length) {slideIndex = 1}    
+        if (n < 1) {slideIndex = slides.length}
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";  
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex-1].style.display = "block";  
+        dots[slideIndex-1].className += " active";
+      }
+  
+</script>

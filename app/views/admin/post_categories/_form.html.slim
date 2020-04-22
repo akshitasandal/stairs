@@ -1,0 +1,19 @@
+= form_for [:admin, @post_category] do |f|
+  /- if @post_category.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@post_category.errors.count, "error")} prohibited this post_category from being saved:"
+      ul
+        - @post_categories.errors.full_messages.each do |message|
+          li = message
+
+  .form-group
+    label
+      = f.label :name
+    = f.text_field :name, :class=> "form-control"
+  .checkbox
+    label
+      = f.check_box :status, :checked => true
+      = f.label :status
+    br/
+  .actions
+    = f.submit "Submit", :class => "btn btn-primary"

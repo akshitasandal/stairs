@@ -1,0 +1,10 @@
+.parallax-container.cover_photo_container
+  .parallax.cover_parallax
+    = image_tag "#{@company.cover_photo.url(:medium)}" , :class => "company-cover-image"
+  - follow_text = ( @follow_status == 0 ) ? "follow" : "unfollow" 
+  - bookmark_text = ( @bookmark_status == 0 ) ? "Bookmark" : "Bookmarked"
+  .right.social_button
+      = link_to follow_text, "javascript:void(0);", :id => "follow_button", 'data-company' => @company.id, :class => "btn red #{follow_text}"
+      | &nbsp;&nbsp;
+      = link_to bookmark_text, "javascript:void(0);", :id => "bookmark_button", 'data-company' => @company.id, :class => "btn red #{ bookmark_text}"
+#name

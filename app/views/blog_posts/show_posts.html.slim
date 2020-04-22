@@ -1,0 +1,55 @@
+= page_heading  @blog_post.title
+= meta_keywords @blog_post.keywords
+= meta_description @blog_post.description
+.container.view_class
+    = link_to "#{@views} views" ,"#"
+.container
+  p
+    strong Title:
+    = @blog_post.title
+  p
+    strong tags:
+    = @blog_post.tags
+  p
+    #blog_post_body_content
+      strong Body:
+      = raw @blog_post.body
+  p
+    strong Post Category:
+    - if @blog_post.post_categories.present?
+                - @post_category = @blog_post.post_categories.map(&:name) 
+                = raw(@post_category.map{|cat| cat}.join(', '))
+
+
+.container.blog_wrap
+  .row
+      .col.m4.blog_featured_image_wrap
+        .blog_featured_image.valign-wrapper
+          = link_to (@blog_post.featured_image.url(:original)), :class=> "single_featured_image" , :rel => 'blog' , :data => {lightbox: image_url(@blog_post.id)} do
+            -if @blog_post.featured_image.present?
+              = image_tag @blog_post.featured_image.url(:medium), :class => "valign"
+            -else
+              = link_to image_tag("missing.png") , "/assets/missing.png" ,:rel => "blog", :data => {lightbox: image_url(@blog_post.id)}
+                
+.container 
+      /-if policy(@blog_post).create? 
+        /= link_to 'Edit |',  edit_company_blog_post_path(:company_id => current_user.companies[0].slug),data: { turbolinks: false }
+        = link_to ' Back |', posts_companies_path, data: { turbolinks: false }
+        /= link_to ' Destroy',  blog_post_companies_path(@blog_post), method: :delete, data: { confirm: 'Are you sure?' } 
+      end
+ 
+  
+.container
+    == render 'disqus'
+
+.container
+  h3 Related Posts
+  -@blog_posts = []
+  - tags = @blog_post.tags.split(",")
+  - tags.each do|tag|
+    -@blog_posts= BlogPost.where("find_in_set(? , tags)", tag).where.not(:id => @blog_post.id)
+  -@blog_posts
+  == render "blog_posts/includes/show_blog_posts"
+ 
+             
+

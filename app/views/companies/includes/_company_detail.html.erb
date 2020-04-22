@@ -1,0 +1,49 @@
+
+<%= prop :company_detail, type: :Organization do %>
+  <tr>
+    <td class="detail-title" width="220px">_Company name</td>
+    <% prop :name, @company.name %>
+    <td class="detail-data"><a href="#" class="company-name"><%= prop :name ,@company.name%></a></td>
+  </tr>
+  <tr>
+     <td class="detail-title">_Owner Name</td>
+     <td class="detail-data"><%= prop :owns, @company.owner_name %></td>
+  </tr>
+  <tr>
+    <td class="detail-title">_Website</td>
+    <td class="detail-data"><i><%= prop :sameAs ,@company.website %></i></td>
+  <tr>
+    <td class="detail-title">_Company Size</td>
+    <td class="detail-data"><%= @company.company_size_group.size_group %></td>
+  </tr>
+  <tr>
+    <td class="detail-title">_Company Found</td>
+    <td class="detail-data"><%= @company.founded %></td>
+  </tr>
+  <tr>
+    <td class="detail-title">_Primary Email</td>
+    <td class="detail-data"><%= prop :email ,@company.primary_email %></td>
+  </tr>
+  <tr>
+    <td class="detail-title">_Secondary Email</td>
+    <td class="detail-data"><%= prop :email , @company.secondary_email%></td>
+  </tr>
+  <tr>
+    <%= prop :contact , type: :contact_point %>
+      <td class="detail-title">_Primary Contact Number</td>
+      <td class="detail-data"><%= prop :telephone ,@company.primary_contact_number%></td>
+  </tr>
+  <tr>
+    <td class="detail-title">_Secondary Contact Number</td>
+    <td class="detail-data"><%= @company.contact_person%></td>
+  </tr>
+  <tr>
+    <td class="detail-title">_City</td>
+    <td class="detail-data"><%=  @company.city.name%></td>
+  </tr>
+  <tr>
+    <td class="detail-title">_Address</td>
+    <td class="detail-data"><%= prop :address , @company.address%></td>
+  </tr>
+ <%end%>
+

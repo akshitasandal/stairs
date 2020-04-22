@@ -1,0 +1,170 @@
+<% provide(:title, @blog_post.title) %>
+<div class="main">
+	<div class="post-first-section">
+		<div class="container d-flex">
+			<div class="row mr-0">
+				<div class="col-md-5 post-banner-left-section">
+					<% if @blog_post.featured_image.present? %>
+						<span style="background-image:url('<%= @blog_post.featured_image.url%>')" ></span> 
+					<%else%>
+						<span style="background-image:url('/assets/missing.png')" ></span> 
+					<%end%>
+				</div>
+				<div class="col-md-7 post-banner-right-section">
+					<h3><span class="position-relative"><%= @blog_post.title %></span></h3>
+					<h1><%= @blog_post.description %> </h1>
+					<p><%= truncate(strip_tags(@blog_post.body), length: 500 )%></p>
+					<div class="tags">
+						<span> &nbsp;&nbsp;&nbsp;Tags: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   	
+							<% if @blog_post.tags.present? %>
+								<% @tags=@blog_post.tags.split(',') %>
+							 	<%= raw(@tags.map{|tag| raw(link_to(tag, tag_name_blog_posts_path(:company_id => @blog_post.company.slug,:tag_name => [tag.parameterize].join("-"))))}.join(' ')) %>
+							<%end%>
+						</span>
+						<br>
+						<span>Categories:
+							<% if @blog_post.post_categories.present? %>
+								<% @post_category = @blog_post.post_categories.map(&:name) %>
+								<% @company = @blog_post.company %>
+	    					<span class="categories">
+	    						<%= raw(@post_category.map{|cat| raw(link_to(cat,category_name_blog_posts_path(@blog_post.company.slug,:category_name => [cat.parameterize].join("-"))))}.join(' '))%>
+    						</span>
+	    				<%end%>
+	    			</span>
+  				</div>
+					
+					
+					<div class="user-info">
+						<div class="user-info-image">
+							<% if @blog_post.user.avatar.present? %>
+									<img src="<%= @blog_post.user.avatar.url%>">
+							<%else%>
+								<img src="/assets/missing.png">
+							<%end%>
+						</div>
+							<span class="user-detail">
+						<h6><%= @blog_post.user.first_name%></h6>
+						<h5><span><%= @blog_post.company.name %> | </span><a href="#"> <%= @blog_post.company.website %></a></h5>
+						<h6><%= @blog_post.company.created_at.strftime("%B %d, %Y") %> | <%= time_ago_in_words(@blog_post.company.created_at) +" ago" %></h6>
+						</span>
+					</div>
+				
+					<p class="likes-count">
+					<i class="fa fa-heart" aria-hidden="true"></i>114
+					</p>
+				</div><!-- post-banner-right-section-->
+			</div><!-- row-->
+		</div><!-- container-->
+	</div><!-- post-first-section -->
+	<div class="container">
+		<div class="post-second-section">
+			<div class="row">
+				<div class="col-md-11 post-second-section-left">
+					<h1><%= @blog_post.description%></h1>
+					<p class="post-first-heading"><%= strip_tags(@blog_post.body) %> </p>
+					<div class="post-pagination">
+						<nav aria-label="...">
+						  <ul class="pagination pagination-sm">
+						    <li class="page-item disabled">
+						      <a class="page-link" href="#" tabindex="-1">/</a>
+						    </li>
+						    <li class="page-item"><a class="page-link" href="#">/</a></li>
+						    <li class="page-item"><a class="page-link" href="#">/</a></li>
+						  </ul>
+						</nav>
+					</div>
+				</div>
+				<div class="col-md-1 blog-right-section">
+					<ul>
+						<% @company= @blog_post.company %>
+						<% @user = User.find_by(:id => @company.user_id).username %>
+			               
+						<li><%= "#{@views} views" %></li>
+						<li><a href="#"><i class="fa fa-share" aria-hidden="true"></i></a></li>
+						<li><a href=" http://www.facebook.com/sharer.php?u=http://stairs.uistaging.site/<%=blog_post_blog_posts_path(@company, @user, @blog_post)%>" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+					<!-- 	<li><a href="#"><i class="fa fa-camera" aria-hidden="true" target="_blank"></i></a></li> -->
+						<li><a href="http://twitter.com/intent/tweet?url=http://stairs.uistaging.site/<%=blog_post_blog_posts_path(@company, @user, @blog_post) %>
+						" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+						<li><a href="https://plus.google.com/share?url=http://stairs.uistaging.site/<%=blog_post_blog_posts_path(@company, @user, @blog_post) %>"  target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+					</ul>
+				</div>
+			</div><!-- row-->
+			<h2>Thank's for reading!</h2>
+		</div><!-- post-second-section -->
+		<%= render 'blog_posts/includes/disqus'%>
+	</div><!-- container-->
+	<section id="related-post-section">
+    <div class="container">
+			<h3>Related Posts </h3>
+				<div class="card-columns">
+        	<% if @blog_posts.present? %>
+        		<div class="four-latest-posts-div">
+		          <% @blog_posts.first(4).each do|blog_post| %>
+		            <% if blog_post.present?  %>
+			             <div class="card">
+			             		<% @company= blog_post.company %>
+											<% @user = User.find_by(:id => @company.user_id).username %>
+			                <a href="<%= blog_post_blog_posts_path(@company, @user, blog_post)%>">
+			                  <div class="company-inner-blog">
+			                  	<% if blog_post.featured_image.present? %>
+			                    	<div class="blog-image"><img src="<%= blog_post.featured_image.url %>"></div>
+			                    <%end%>
+			                    <h1><span><%= blog_post.title %></span></h1>
+			                    <p class="heading-text"><%= truncate(strip_tags(blog_post.body), length: 400)%></p>
+			                    <p class="location-div"><span><i class="fa fa-clock-o" aria-hidden="true"></i><%= blog_post.created_at.strftime("%B %d, %Y") %></span><i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+			                    </p>
+			                  </div>
+			                </a>
+		              </div>
+		            <%end%>
+		          <%end%>  <!---- cards ends ---->
+		        </div>
+           	<div class="all-latest-posts-div">
+		          <% @blog_posts.each do|blog_post| %>
+		            <% if blog_post.present?  %>
+			             <div class="card">
+			             		<% @company= blog_post.company %>
+											<% @user = User.find_by(:id => @company.user_id).username %>
+			                <a href="<%= blog_post_blog_posts_path(@company, @user, blog_post)%>">
+			                  <div class="company-inner-blog">
+			                  	<% if blog_post.featured_image.present? %>
+			                    	<div class="blog-image"><img src="<%= blog_post.featured_image.url %>"></div>
+			                    <%end%>
+			                    <h1><span><%= blog_post.title %></span></h1>
+			                    <p class="heading-text"><%= truncate(strip_tags(blog_post.body), length: 400)%></p>
+			                    <p class="location-div"><span><i class="fa fa-clock-o" aria-hidden="true"></i><%= blog_post.created_at.strftime("%B %d, %Y") %></span><i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+			                    </p>
+			                  </div>
+			                </a>
+		              </div>
+		            <%end%>
+		          <%end%>  <!---- cards ends ---->
+		         </div>
+		       <!--  <div class="card load-more">
+		          <a href="#" class="load-more">Load More<i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+		        </div> -->
+        	<%end%>
+    		</div>
+    		<%if @blog_posts.count > 4 %>
+	    		<div class="blog-load-btn load-more-btn">
+	        <button type="button" class="btn">Load more <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
+	      </div> 
+	      <%end%>
+		</div><!-- related-post -->
+	</div><!-- container-->
+</section>
+<script>
+$(window).scroll(function() {    
+    var scroll = $(window).scrollTop();
+    if (scroll >= 750) {
+        $(".blog-right-section ul").addClass("sticky-social");
+        $(".blog-right-section").addClass("border-zero");
+    }
+    else {
+      $(".blog-right-section ul").removeClass("sticky-social");
+      $(".blog-right-section").removeClass("border-zero");
+    }
+}); 
+</script>
+
+

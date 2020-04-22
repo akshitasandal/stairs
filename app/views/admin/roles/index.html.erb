@@ -1,0 +1,24 @@
+<h2><center>Roles Area</center></h2>
+<%= form_tag roles_assign_admin_roles_path , id: "role_form" ,method: "post" do|f|%>
+  <div class="panel panel-default">
+  	<div class="panel-heading" align="left">Assign Role to User <div class="pull-right current_role"></div></div>
+  	<div class="panel-body">
+  		<div class="container">
+      		<div class="form-group">
+			    <label class="col-lg-2 control-label">Select User</label>
+			    	<div class="col-lg-2" align="center">
+			    		<%= select_tag 'user_id',options_for_select(@user.map{|a| [ a.email, a.id]},  selected: params[:user_id]),{ :include_blank => "Select User" , :class => "form-control"} %>
+			    	</div>
+			 	<label class="col-lg-2" align="center">Assign Role</label>
+			 		<div class="col-lg-2" align="center">
+			 			<%= select_tag 'role_id', options_for_select(@role.map{|a| [a.name, a.id]},selected: params[:role_id]), {  :multiple => true} %>
+			 		</div>
+				<div class="pull-right col-lg-4">
+					<div class="action">
+						<%= submit_tag "Change Role" ,class: "btn btn-primary", name: nil %>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<%end%>

@@ -1,0 +1,18 @@
+= provide(:title, "All Categories")
+.container
+  h5.center
+    strong.red-text Listing Post Categories
+  br/
+  table.centered
+    thead
+      tr
+        th Sr
+        th Name
+        th Action
+    tbody
+      - i =0
+      - @post_categories.each do |post_category|
+        tr
+          td = i = i+1 
+          td = post_category.name
+          td = link_to 'Show Posts', post_category_path(post_category) ,:data => {turbolinks: false}         

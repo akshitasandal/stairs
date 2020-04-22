@@ -1,0 +1,42 @@
+.container
+  .row
+    h3.valign.center Edit Profile
+    
+    = form_for(resource, :as => resource_name, :url => users_path, :html => { :method => :put, :role => 'form' , :class=>'col-md-7 edit_user'}) do |f|  
+      = devise_error_messages!
+      
+      .form-group
+        = f.label :first_name
+        = f.text_field :first_name, :autofocus => true, class: 'form-control validate'
+      
+      .form-group
+        = f.label :last_name
+        = f.text_field :last_name, :autofocus => true, class: 'form-control validate'
+      
+      .form-group
+        = f.label :email
+        = f.email_field :email, class: 'form-control'
+        -if devise_mapping.confirmable? && resource.pending_reconfirmation?
+          Currently waiting confirmation for: = resource.unconfirmed_email
+        end
+      
+      .form-group
+        = f.label :bio
+        = f.text_area :bio , class: 'form-control validate'
+      
+      .form-group
+        = f.label :skill
+        = f.text_field :skills, class: 'form-control validate' 
+      
+      .form-group
+        h4
+        = f.label :avatar
+        div
+          = image_tag "#{@user.avatar.url(:medium)}"
+      
+      .file-field.form-group
+        = f.file_field :avatar
+      
+      = f.submit 'Update', :class => 'btn btn-primary'
+    end
+

@@ -1,0 +1,32 @@
+<div class="container-fluid">
+<table class="table">
+  <thead>
+    <tr>
+      <th>Sr.</th>
+      <th>First name </th>
+      <th>Last name</th>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+      <% i = 0%>
+      <% @followed_users.each do |record| %>
+        <tr>
+          <td><%= i = i+1%>
+          <td><%= record.user.first_name %></td>
+          <td><%= record.user.last_name %></td>
+          <td><%= record.user.username %></td>
+          <td><%= record.user.email %></td>
+          <td>
+          <% if record.user.company.present? %>
+            <%= link_to 'Show', company_user_path(record.user.company, record.user.username) ,:class => "btn btn-sm btn-primary" %> 
+          <%end%>
+            <%= link_to 'unfollow',  "#" ,'data-user' => record.user.id, :class => "btn btn-sm btn-primary", id: "unfollow_user"%>
+            </td>
+        </tr>
+      <%end%>
+  </tbody>
+</table>
+</div>

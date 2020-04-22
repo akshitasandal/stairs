@@ -1,0 +1,69 @@
+br/
+- if @company.present?
+  h5.valign.center  #{@company.name}
+  br/
+  .container
+    .row
+      table.highlight.bordered
+          tr
+            td 
+              strong Company name
+            td
+              = @company.name
+          tr
+            td 
+              strong Owner Name
+            td
+              = @company.owner_name
+          tr
+            td 
+              strong Website 
+            td
+              = @company.website
+          tr
+            td 
+              strong Company Size 
+            td
+              = @company.company_size_group.size_group
+          tr
+            td 
+              strong Company Found 
+            td
+              = @company.founded
+          tr
+            td 
+              strong Primary Email
+            td
+              = @company.primary_email
+          tr
+            td 
+              strong Secondary Email
+            td
+              = @company.secondary_email
+          tr
+            td 
+              strong Primary Contact Number
+            td
+              = @company.primary_contact_number
+          tr
+            td 
+              strong Contact Number
+            td
+              = @company.contact_person
+          tr
+            td 
+              strong City
+            td
+              = @company.city.name
+          tr
+            td 
+              strong Address 
+            td
+              = @company.address
+      br/
+      -if policy(@company).edit? 
+        = link_to 'Edit', edit_company_path(@company), :class => "btn waves-effect waves-light red accent-2"
+      end
+      end
+      end
+

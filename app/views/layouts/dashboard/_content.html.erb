@@ -1,0 +1,28 @@
+<!-- Content Wrapper. Contains page content -->
+  <section class="content-header">
+   <!--  <ol class="breadcrumb">
+      <li><a href="/dashboard"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+      <li class="active">Here</li>
+    </ol> -->
+  </section>
+  <section class="content container-fluid">
+    <div class="notice-class">
+      <%#if params[:controller] == "admin/users" && params[:action] == "edit" %>
+          <%#if notice.present?%>
+           
+          <%#end%>
+      <%#else%>
+        <%if notice.present?%>
+            <div class="alert alert-success">
+              <p id="notice"><%= notice %></p>
+            </div>
+          <%end%>
+      <%#end%>
+    </div>
+    <%= yield %>
+  </section>
+<div id="img-loader">
+	 <%#= image_tag "load-icon.png", :id => "load-image" %>
+</div>	
+
+

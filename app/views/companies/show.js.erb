@@ -1,0 +1,7 @@
+$('#companies-posts').append("<%= j render 'companies/includes/company_posts'  %> ");
+<% if @company_posts.next_page  %>
+  $('.pagination').replaceWith('<%= j will_paginate @company_posts %>');
+<% else %>
+  $(window).off('scroll');
+  $('.pagination').remove();
+<%end %>

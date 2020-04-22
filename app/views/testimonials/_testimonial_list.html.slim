@@ -1,0 +1,33 @@
+.container
+  /-if policy(@testimonial).new?
+    /= link_to 'New Testimonial', new_company_testimonial_path(@company), :class => "waves-effect waves-light btn red accent-2 right"
+  end
+  -if @testimonials.present?
+    table.centered.highlight
+      thead
+        tr
+          th = "Title"
+          th = "Video"
+          th = "Actions"
+
+      tbody
+        - @testimonials.each do |testimonial|
+          tr
+            td = testimonial.title
+            td
+              iframe src="#{testimonial.content}" width="150" height = "100px"
+            td = link_to 'Show', company_testimonial_path(@company, testimonial), :class => "waves-effect waves-light btn red accent-2"
+            /-if policy(@testimonial).destroy?
+              td = link_to 'Destroy',  company_testimonial_path(@company, testimonial), data: { confirm: 'Are you sure?' }, method: :delete,:class => "btn red right"
+            end
+        end
+  -else
+    center
+      h5 No result Found
+  end
+
+    br/
+    br/
+  center
+      /= will_paginate @testimonials
+      /= page_entries_info @testimonials 

@@ -1,0 +1,129 @@
+<%= provide(:title, @user.username+ ' | ' +@user.company.name) %>
+<div class="main">
+  <div class="post-first-section float-none">
+    <div class="container">
+      <div class="row mr-0 ml-0 post-row">
+        <div class="col-md-12 profile-first-section p-0">
+          <div class="row m-0">
+            <div class="col-md-10 pl-0">
+              <div class="profile-name">
+                <% first_name = @user.first_name %>
+                <% last_name = @user.last_name %>
+                <% if first_name.present? && last_name.present? %>
+                  <h5><% first_name+ " " +last_name%></h5>
+                <%else%>
+                  <h5><%= @user.username %></h5>
+            
+                <%end%>
+                <% if @user.company.present? %>
+                <% name = @user.first_name.present? ? @user.first_name : @user.username%>   
+                 <h3><%= name %> / <span><%= @user.company.name %></span></h3>
+                <%end%>
+              </div><!-- profile-name -->
+              <div class="row">
+                <div class="col-md-4 user-image-div pr-0">
+                  <h3>CHANGE IMAGE</h3>
+                  <div class="porile-image">
+                    <div class="blog-image">
+                      <%if @user.avatar.present? %>
+                        <img src="<%= @user.avatar.url %>">
+                      <%else%>
+                        <img src="/assets/missing.png" >
+                      <%end%>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-8 user-text-div pl-0">
+                  <p><%= @user.bio %> </p>
+                  <div class="follower-div">
+                    <ul>
+                      <% if @user.present? &&  current_user.present? && @user.id != current_user.id %>
+                        <% follow_text = ( @follow_status == 0 ) ? "follow" : "unfollow" %>
+                        <li class="p0"><a href="javascript:void(0);" id="follow_user_button" data-user="<%=@user.id%>" class="btn <%= follow_text%>"><%= follow_text%></a></li>
+                      <%end%>
+                      <li><a href="#"><%= @followers %> Followers</a></li>
+                      <li><a href="#"><%= @following %> Following </a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div><!-- row-->
+            </div><!-- col-md-10-->
+            <div class="col-md-2">
+              <div class="profile-right-sectio">
+                <ul>
+                  <% company = @user.company %>
+                  <li><a href=" http://www.facebook.com/sharer.php?u=http://stairs.uistaging.site/<%= company_user_path(company, @user) %>" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                  <!-- <li><a href="#"><i class="fa fa-camera" aria-hidden="true"></i></a></li> -->
+                  <li><a href="http://twitter.com/intent/tweet?url=http://stairs.uistaging.site/<%= company_user_path(company, @user) %>
+            " target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                  <li><a href="https://plus.google.com/share?url=http://stairs.uistaging.site/<%= company_user_path(company, @user) %>"  target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                </ul>
+              </div>
+            </div><!-- col-md-2-->
+          </div> <!-- row -->
+        </div>
+      </div><!-- profile-first-section-->
+    </div><!-- row-->
+  </div><!-- container-->
+
+  <section id="related-post-section">
+    <div class="container">
+      <h1><span>User Posts</span></h1>
+        <!-- related posts cards ----->
+      <div class="card-columns">
+        <% if @blog_posts.present? %>
+          <div class="four-latest-posts-div">
+            <% @blog_posts.first(4).each do|blog_post| %>
+              <% if blog_post.present?  %>
+                <div class="card">
+                  <% @company= blog_post.company %>
+                  <% @user = User.find_by(:id => @company.user_id).username %>
+                  <a href="<%= blog_post_blog_posts_path(@company, @user, blog_post)%>">
+                    <div class="company-inner-blog">
+                      <% if blog_post.featured_image.present? %>
+                        <div class="blog-image"><img src="<%= blog_post.featured_image.url %>"></div>
+                      <%end%>
+                      <h1><span><%= blog_post.title %></span></h1>
+                      <p class="heading-text"><%= truncate(strip_tags(blog_post.body), length: 400)%></p>
+                      <p class="location-div"><span><i class="fa fa-clock-o" aria-hidden="true"></i> November 22, 2017</span><i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                      </p>
+                    </div>
+                  </a>
+                </div>
+              <%end%>
+            <%end%>  <!---- cards ends ---->
+          </div>
+          <div class="all-latest-posts-div">
+            <% @blog_posts.each do|blog_post| %>
+              <% if blog_post.present?  %>
+                <div class="card">
+                  <% @company= blog_post.company %>
+                  <% @user = User.find_by(:id => @company.user_id).username %>
+                  <a href="<%= blog_post_blog_posts_path(@company, @user, blog_post)%>">
+                    <div class="company-inner-blog">
+                      <% if blog_post.featured_image.present? %>
+                        <div class="blog-image"><img src="<%= blog_post.featured_image.url %>"></div>
+                      <%end%>
+                      <h1><span><%= blog_post.title %></span></h1>
+                      <p class="heading-text"><%= truncate(strip_tags(blog_post.body), length: 400)%></p>
+                      <p class="location-div"><span><i class="fa fa-clock-o" aria-hidden="true"></i> November 22, 2017</span><i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                      </p>
+                    </div>
+                  </a>
+                </div>
+              <%end%>
+            <%end%>  
+          <%end%>
+        </div>
+      </div>
+     <!--  <div class="card load-more">
+        <a href="#" class="load-more">Load More<i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+      </div> -->
+      <% if @blog_posts.present? && @blog_posts.count > 4 %>
+        <div class="blog-load-btn load-more-btn">
+          <button type="button" class="btn">Load more <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
+        </div> 
+      <% end %>
+    </div>
+  </section>
+</div><!-- main -->

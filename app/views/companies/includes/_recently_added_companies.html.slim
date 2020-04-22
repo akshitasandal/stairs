@@ -1,0 +1,22 @@
+.section.center
+  br/
+  h5
+    strong.red-text RECENTLY ADDED COMPANIES
+  br/
+  .container
+    /.owl-carousel.owl-theme
+      -@recent_add.each do |recent_add|
+        .tile
+          .homepage_company_image
+            /= link_to  company_path(recent_add.slug)
+            .image-center-div
+              = image_tag(recent_add.logo.url(:original), :class=> "responsive-img"  )
+            br/
+          h6.new-tile 
+            = link_to recent_add.slug ,company_path(recent_add.slug) , :class => "red-text" ,data: { turbolinks: false }
+            /= " | "
+            /=recent_add.city.name 
+              
+        end
+      /.row.center
+        = button_to 'Read More', companies_path, method: :get, :params => {:orders => 'new_added'},:class =>"download-button btn-large waves-effect blue-grey red accent-2"

@@ -1,0 +1,42 @@
+
+footer.page-footer.cyan.darken-4
+  .container
+    .row
+      .col.m6.s12
+        h5.yellow-text Lorem ipsum is simply dummy
+        p.grey-text.text-lighten-4 
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+          Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+          when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
+          It has survived not only five centuries, but also the leap into electronic typesetting,
+          remaining essentially unchanged
+      .col.m3.s12
+        h5.yellow-text NAVIGATION
+        ul
+          li
+            a.grey-text.text-lighten-3 href="#{root_path}"  Home
+          li
+            a.grey-text.text-lighten-3 href="#{page_path('about')}"  About Us
+          li
+            a.grey-text.text-lighten-3 href="#!"  Contact Us
+      .col.m3.s12.nav.login-nav.country-div
+        h5.yellow-text OUR OFFICE
+        ul
+          li
+            a href="#" 
+          li
+            a href="#" 
+              iv.fa.fa-facebook aria-hidden="true"
+          li
+            a href="#" 
+              iv.fa.fa-twitter aria-hidden="true" 
+          li
+            a href="#" 
+              iv.fa.fa-google-plus aria-hidden="true"
+  .footer-copyright
+    .container
+      |Copyright © #{ Time.now.year} 
+      = link_to "   Uimatic" ,"http://www.uimatic.com/" 
+      = " All Rights Reserved." 
+      a.grey-text.text-lighten-4.right href="#!" 
+      

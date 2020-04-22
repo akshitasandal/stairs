@@ -1,0 +1,37 @@
+<div class="container-fluid">
+  
+  <!-- a.modal-trigger.btn.red href="#modal1"  Advance Search Option -->
+  <% if @bookmarked.present?  %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Owner name</th>
+          <th>Website</th>
+          <th>Primary email</th>
+          <th>Contact person</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @bookmarked.each do |record| %>
+          <tr>
+            <td><%= record.company.name%></td>
+            <td><%= record.company.owner_name%></td>
+            <td><%= record.company.website %></td>
+            <td><%= record.company.primary_email %></td>
+            <td><%= record.company.contact_person %></td>
+            <td><%= link_to 'Show', company_path(record.company.slug), :class => "btn btn-sm btn-primary" %>
+              <%= link_to 'Bookmarked',  "#" ,'data-company' => record.company.id, :class => "btn btn-sm btn-primary", id: "remove_bookmark"%>
+            </td>
+          </tr>
+        <%end%>
+      </tbody>
+    </table>
+  <% else %>
+    <div class="center">
+      <h5> Bookmark Company Not Found </h5>
+    </div>
+    <br/>
+  <%end%>
+</div>

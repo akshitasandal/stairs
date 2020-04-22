@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-7">
+      <% if @album.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= "#{pluralize(@album.errors.count, "error")} prohibited this album from being saved:"%> </h2>
+          <ul>
+            <% @album.errors.full_messages.each do |message| %>
+              <li> <%= message %> </li>
+            <%end%>
+          </ul>
+        </div>
+      <%end%>
+      <%= form_for [:admin ,@company, @album] , html: { multipart: true } do |f| %>
+        <div class="form-group">
+          <%= f.label :name %><br>
+          <%= f.text_field :name , class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :description %>
+          <%= f.text_area :description, :class => "form-control", length:'120' %>
+        </div>
+        <p> You Can Choose multiple images </p>
+        <div class="file-field">
+          <div class="form-group">
+            <label>File</label>
+             <%= f.file_field "images" , multiple: true , placeholder: "Upload one or more files" %>
+          </div>
+        </div>
+        <div class="actions">
+          <%= f.submit %>
+        </div>
+      <%end%>
+    </div>
+  </div>
+</div>

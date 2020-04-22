@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="row">
+  	<div class="col.md-4">
+	    <% @images.each do |i| %>
+	      <% if i.deleted == false %> 
+          <%= link_to (i.image.url(:original)), :class=> "single_image" , :rel => 'album' , :data => {url: image_url(i.id)} do %> 
+            <%= image_tag(i.image.url(:medium), :class => "valign") %>
+          <%end%> 
+          <%if policy(@album).destroy? %>
+            <!-- span.delete_image_link -->
+            <%= link_to 'x', admin_image_path(i.id), data: { confirm: 'Are you sure?' }, :class => "delete-link", method: :delete %>
+          <%end%>
+	      <%end%>
+	    <%end%>
+		</div>
+  </div>
+</div>
+

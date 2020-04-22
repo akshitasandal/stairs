@@ -1,0 +1,23 @@
+br/
+h5.valign.center  #{@company.name}
+.container
+  .container
+    .col.s12.m12
+      .card.horizontal
+        .card-image
+          = image_tag @company.logo.url(:medium)
+        .card-stacked.content
+          .card-content
+            - if strip_tags(@company.overview).length > 200
+              .word-limit-overview
+                = truncate(strip_tags(@company.overview), length: 200)
+                = link_to ".....read more", "", class: "read-more"
+              .card-class
+                = strip_tags(@company.overview)
+                = link_to "....read less", "" , class: "read-less"
+            -else
+              = strip_tags(@company.overview)
+          .card-action
+            /-if policy(@company).edit?
+              = link_to 'Edit', edit_company_path(@company), :class => "btn waves-effect waves-light red accent-2"
+            end

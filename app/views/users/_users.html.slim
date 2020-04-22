@@ -1,0 +1,24 @@
+= content_for :title 
+  = "All Users"
+.valign.center
+  h5 All Users
+table.highlight.centered.table
+  thead
+    tr
+      th Name
+      th Last name
+      th Username
+      th Email
+      th Action
+  tbody
+  - @users.each do |user|
+    tr
+      td = user.first_name 
+      td = user.last_name
+      td = user.username
+      td = user.email
+      - if user.company.present?
+        -company = user.company
+        td = link_to 'Show' , company_user_path(company,user), class: "btn red"
+      /td /= link_to 'Destroy', user_path(user), data: { confirm: 'Are you sure?' }, method: :delete , class: "btn btn-sm red-text"
+  end

@@ -1,0 +1,26 @@
+.row
+	= render 'companies/includes/cover_photo'
+  	.tabs-vertical
+	    .col.m3
+	      ul.tabs
+	        li.tab.company-overview
+	          a href="#overview" Overview
+	        li.tab.company-details
+	          a href="#detail"  Detail
+	        li.tab.company-location
+	          = link_to "Location" , "#location" , :id => "map_location"
+	        li.tab
+	          = link_to "Company Users" ,company_users_path(@company),target: "_self", id: "users", data: { turbolinks: false }
+	        li.tab
+	          = link_to "Company Posts" , company_posts_blog_posts_path(@company),target: "_self", class:"active",id:"posts", data: { turbolinks: false }
+	    .col.s8.m12.l8
+	      	#overview.tab-content
+	        	= render 'companies/includes/overview'
+	      	#detail.tab-content
+	        	= render 'companies/includes/company_detail'
+         	#location.tab-content
+        		= render 'companies/includes/location' 
+	      	.user-companies-div
+		      	#posts.tab-content
+		        	= render 'blog_posts/includes/company_posts_list'
+		      

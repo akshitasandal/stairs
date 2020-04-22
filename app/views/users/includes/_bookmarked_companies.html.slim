@@ -1,0 +1,44 @@
+.container-full
+  .row.center
+    .valign.center   
+      /a.modal-trigger.btn.red href="#modal1"  Advance Search Option
+    -if @bookmarked.present?  
+      table.highlight.centered
+        thead
+          tr
+            th Name
+            th Owner name
+            th Website
+            th Primary email
+            /th Secondary email
+            /th Primary number
+            /th Secondary number
+            th Contact person
+            /th City
+            th Address
+            th Action
+
+        tbody
+          - @bookmarked.each do |company|
+            tr
+              td = company.company.name
+              td = company.company.owner_name
+              td = company.company.website
+              td = company.company.primary_email
+              /td = company.company.secondary_email
+              /td = company.primary_contact_number
+              /td = company.secondary_contact_number
+              td = company.company.contact_person
+              /td = company.city.name
+              td = company.company.address
+              td = link_to 'Show', company_path(company.company.slug), :class => "btn red"
+              -if is_super_admin?
+                /td = link_to 'Edit', edit_company_path(company.slug)
+                /td = link_to 'Destroy', company_path(company.company.id), data: { confirm: 'Are you sure?' }, method: :delete
+    -else
+      center 
+        h5 Bookmark Company Not Found
+    br/
+center
+  /= will_paginate @bookmarked
+  /= page_entries_info @bookmarked

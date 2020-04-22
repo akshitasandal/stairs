@@ -1,0 +1,30 @@
+<div class="main">
+  <div class="container p-0 login-container">
+    <div class="login-screen">
+      <div class="login-overlay">
+        <div class="login-left-section">
+        <h3><span class="position-relative">Reset Password</span></h3>
+          <div class="login-form">
+            <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post,:role => 'form' }) do |f| %>
+              <%= devise_error_messages! %>
+              <div class="form-group">
+               	<%= f.label :email %>
+                <%= f.email_field :email , :autofocus => true, class: 'form-control', placeholder:"Enter your email"  %>
+              </div><!-- form-group-->
+              <button type="submit" name="commit" class="btn">Reset Password<i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
+            <% end %>
+          </div><!-- login-form-->
+        </div><!-- login-left-section-->
+
+        <div class="login-right-section forget-password-page">
+          <ul>
+            <li><a href="http://www.facebook.com/sharer.php?u=http://stairs.uistaging.site/<%= new_user_password_path %>" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+            <!-- <li><a href="#"><i class="fa fa-camera" aria-hidden="true"></i></a></li> -->
+            <li><a href="http://twitter.com/intent/tweet?url=http://stairs.uistaging.site/<%= new_user_password_path %> "><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+            <li><a href="https://plus.google.com/share?url=http://stairs.uistaging.site/<%= new_user_password_path %>"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+          </ul>
+        </div><!-- login-right-section-->
+      </div>
+    </div><!-- login-screen-->
+  </div><!-- container-->
+</div><!-- main-->

@@ -1,0 +1,19 @@
+<h3> Listing Roles </h3>
+<div class="container">
+	<table class="table">
+		 <thead>
+	    <tr>
+	      <th>ID</th>
+	      <th>Role Name</th>
+	    </tr>
+	  </thead>
+	  <tbody> 
+	    <% @role.each do |role| %>
+	      <tr>
+	        <td><%= role.id %></td>
+	        <td><%= role.name %></td>
+	      </tr>
+	    <% end %>
+	  </tbody>
+	</table>
+</div>

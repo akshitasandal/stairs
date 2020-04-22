@@ -1,0 +1,26 @@
+h3.red-text Listing Post Categories
+br
+table.table.my_table
+  thead
+    tr
+      th Name
+      th Status
+      th Actions
+
+  tbody
+    - @post_categories.each do |post_category|
+      tr
+        td = post_category.name
+        -if post_category.status == true
+          td = " Enabled "
+        -else
+          td = " Disabled "
+        td 
+          = link_to 'Edit', edit_admin_post_category_path(post_category), class: "btn btn-primary btn-xs "
+          = "  "
+          = link_to 'Destroy', admin_post_category_path(post_category), data: { confirm: 'Are you sure?' }, method: :delete, class: "btn btn-primary btn-xs"
+         
+
+br
+
+= link_to 'New Post category', new_admin_post_category_path, :class => "btn btn-primary"

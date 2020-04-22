@@ -1,0 +1,131 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-7">
+      <% if @company.errors.any? %>
+        <div id="error_explanation">
+          <h5> <%= "#{pluralize(@company.errors.count, "error")} prohibited this company from being saved:" %> </h5>
+          <ul>
+            <% @company.errors.full_messages.each do |message| %>
+              <li> <%= message %> </li>
+            <%end%>
+          </ul>
+        </div>
+      <% end %>
+      <%= form_for [:admin, @company] , html: { multipart: true , class: "form-companies"}  do |f| %>
+        <% if is_super_admin? && @user.present? %>
+          <div class="form-group"> 
+          <!--  <ul id="">
+            <li class="">User <span id="user-select-option"></span></li>
+          </ul> -->
+           <%= f.label :user_id %>
+            <%= f.select 'user_id',options_for_select(@user.map{|a| [ a.email, a.id]},  selected: f.object.user_id),{ :include_blank => "Select User" }, {:class => "form-control"} %>
+          </div>
+        <%end%>
+        <div class="form-group">
+          <%= f.label :functional_area_id  %>
+          <%= f.select 'functional_area_id', options_for_select(@functional_area.collect{ |u| [u.name, u.id]}, :selected => f.object.functional_area_id), {:include_blank => "Select functional area"}, {:class => "form-control"} %>
+        </div>
+        <div class="form-group">
+          <%= f.label :name  %>
+          <%= f.text_field :name, class: ' form-control', :placeholder => "Enter Name", id: 'name' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :owner_name  %>
+          <%= f.text_field :owner_name, :placeholder => "Enter Company Owner Name", class: 'form-control' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :website  %>
+          <%= f.text_field :website , :placeholder => "Enter Company URL", class: 'form-control' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :overview  %>
+          <%= f.text_area :overview , class: 'form-control validate',  style: " word-wrap: break-word",length:'120', rows: "7"%>
+        </div>
+        <div class="form-group">
+           <%= f.label :"Company_size"  %>
+           <%= f.select 'company_size_group_id', options_for_select(@company_size_groups.collect{ |k| [k.size_group, k.id]}, :selected => f.object.company_size_group_id),{:include_blank => "Select company size"}, {:class => "form-control"} %>
+        </div>
+        <div class="form-group">
+          <%= f.label :founded %>
+          <%= f.text_field :founded , class: ' form-control' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :primary_email %>
+          <%= f.text_field :primary_email , class: ' form-control' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :secondary_email  %>
+          <%= f.text_field :secondary_email , class: ' form-control' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :primary_contact_number  %>
+          <%= f.text_field :primary_contact_number , class: 'form-control' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :secondary_contact_number  %>
+          <%= f.text_field :secondary_contact_number , class: 'form-control' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :contact_person  %>
+          <%= f.text_field :contact_person , class: 'form-control' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :city_id  %>
+          <%= f.select 'city_id', options_for_select(@city.collect{ |c| [c.name, c.id]}, :selected => f.object.city_id), {:include_blank => "Select location"}, {:class => "form-control"} %>
+        </div>
+        <div class="file-field">
+          <div class="form-group">
+            <label>Logo</label>
+            <%= f.file_field :logo %>
+          </div>
+          <div class="form-group">
+            <% if params[:action] != "new" %>
+              <%= image_tag(@company.logo.url(:medium), :class=> "responsive-img"  ) %>
+            <%end%>
+          </div>
+        </div>
+        <div class="file-field">
+          <div class="form-group">
+            <label>Cover Photo</label>
+            <%= f.file_field :cover_photo %>
+          </div>
+          <div class="form-group">
+            <% if params[:action] != "new" %>
+              <%= image_tag "#{@company.cover_photo.url(:medium)}" %>
+            <%end%>
+          </div>
+        </div>
+        <div class="form-group hidden">
+          <%= f.label :latitude %>
+          <%= f.hidden_field :latitude , class: ' form-control' , id: 'latitude' %>
+        </div>
+        <div class="form-group hidden">
+          <%= f.label :longitude %>
+          <%= f.hidden_field :longitude , class: ' form-control' , id: 'longitude' %>
+        </div>
+        <div id="map" style="width: 680px; height: 400px"></div>
+        <ul id="hidden">
+            <li class="hidden">Street: <span id="street_number"></span></li>
+            <li class="hidden">City: <span id="locality"></span></li>
+            <li class="hidden">Postal Code: <span id="postal_code"></span></li>
+            <li class="hidden">Country: <span id="country"></span></li>
+            <li class="hidden">Route: <span id="route"></span></li>
+            <li class="hidden">State: <span id="administrative_area_level_1"></span></li>
+        </ul>
+        <div class="form-group">
+          <input type="text" class="form-control controls" id="pac-input" placeholder="Search Your Location"/>
+        </div>
+        <div class="form-group">
+          <%= f.label :address  %>
+          <%= f.text_area :address , class: ' form-control valid',  length:'120' %>
+        </div>
+        <div class="actions">
+          <%= f.submit class: "btn btn-primary", id: "submit_company" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  init_map();
+</script>

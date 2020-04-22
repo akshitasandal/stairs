@@ -1,0 +1,62 @@
+#index-banner.parallax-container
+  .section.no-pad-bot
+    .container
+      .row.center
+        h4.red-text Know Your
+        h3.red-text
+          | Favourite Companies
+          br/
+          | better.
+      .container-full
+        .row
+          .col.s12
+           
+            = form_tag(companies_path, :method => "get", enforce_utf8: false) do 
+              .input-field.col.search.m11.search-field
+                .col.m10
+                  = text_field_tag :name, nil, placeholder: 'Enter search term...', value: "#{params[:name]}"
+                  /i.fa.fa-search aria-hidden="true"
+                .col.m2
+                  = submit_tag :Search ,name: nil, :utf8 => nil ,:class => "btn red center-align home_search_btn"
+              .col.m2
+              #modal1.modal
+                .modal-content
+                  h5.valign.center Advance Search Option
+                  .input-field.col.s12
+                    = select_tag 'city_id', options_for_select(@city.collect{ |u| [u.name, u.id]}.prepend([t('helpers.Choose your option..'), 0]), selected: params[:city_id], disabled: "0" ), {:multiple => true, :selected => params[:city_id]}
+                    label Select City
+                  .input-field.col.s12
+                    = select_tag 'functional_area_id', options_for_select(@functional_area.collect{ |u| [u.name, u.id] }.prepend([t('helpers.Choose your option..'), 0]),selected: params[:functional_area_id],:disabled => "0"), {:multiple => true}
+                    label Select Functional Area
+                  .input-field.col.s12
+                   .input-field.col.s12
+                    = select_tag 'company_size_group_id', options_for_select(@company_size_groups.collect{ |u| [u.size_group, u.id] }.prepend([t('helpers.Choose your option..'), 0]), selected: params[:company_group_size_id], :disabled => "0"), {:multiple => true, include_blank: false}
+                    label Select Company Size
+                    br/
+                    lable  Sort By
+                  .input-field.col.s12
+                    input#test1 name="orders" type="radio"  value="new_added" checked="checked"/
+                    label for="test1"  Newly Added
+                    input#test2 name="orders" type="radio" value="most_view" /
+                    label for="test2"  Most Viewed
+                .modal-footer            
+                   a.modal-action.modal-close.waves-effect.waves-red.btn-flat href=""  Cancel
+                   = submit_tag :Search, name: nil , :class => "btn red center-align"
+              /.input-field.col.s12.valign.center
+                /input id="location_search" name="location_search" type="checkbox" value="1" checked="checked"/  
+                
+                /= label_tag 'location_search', nil, class: 'red-text' 
+              end
+          br/
+      .row.center
+        .valign.center   
+          a.modal-trigger.btn.red href="#modal1"  Advance Search Option
+
+        /a.download-button.btn-large.waves-effect.red.accent-2.slider_button href="#"  Jobs 
+        /a.download-button.btn-large.waves-effect.red.acent-2 href="#"  Companies 
+        /a.download-button.btn-large.waves-effect.red.accent-2 href="#"  Inreviews Que.
+            a.download-button.btn-large.waves-effect.red.accent-2 href="#"  Search .
+    .parallax.slider_parallax
+      = image_tag("slide.png" , :class => "responsive-img") 
+    br/
+    

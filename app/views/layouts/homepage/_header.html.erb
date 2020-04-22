@@ -1,0 +1,61 @@
+    <!-- Navigation -->
+    <%
+controller = params[:controller]
+action = params[:action]
+%>
+<nav class="navbar navbar-expand-lg navbar-light bg-white m-0" id="mainNav">
+ <div class="container">
+  <a class="navbar-brand stairs-logo" href="#">Stairs</a>
+   <!-- search icon -->
+    <div class="search-icon">
+      <!-- <form class="search-Bar" action="/search" method="get"> -->
+        <input type="search" placeholder="Search Location" id="btnSearch" value="">
+        <!-- <input type="button" class="hidden" id="btnSearch" value="Search" onclick="doSomething();" /> -->
+      <!-- </form> -->
+    </div>
+    <!-- search icon ends --->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse p-0" id="navbarSupportedContent">
+      <ul class="stairs-nav navbar-nav ml-auto">
+
+           <li class="nav-item <%= controller == 'blog_posts' && action == 'index' ? 'active' : '' %>">
+              <a class="nav-link js-scroll-trigger text-uppercase before-effect position-relative" href="<%= root_path%>">Home</a>
+            </li>
+            <li class="nav-item <%= controller == 'companies' && action == 'index' ? 'active' : '' %>">
+              <a class="nav-link js-scroll-trigger text-uppercase before-effect position-relative" href="/companies">companies</a>
+            </li>
+            <li class="nav-item <%= controller == 'post_categories' && action == 'index' ? 'active' : '' %>">
+              <a class="nav-link js-scroll-trigger text-uppercase before-effect position-relative" href="/categories">categories</a>
+            </li>
+            <li class="nav-item <%= controller == 'blog_posts' && action == 'all_posts' ? 'active' : '' %>">
+              <% if user_signed_in? && @company.try(:id).present? %>
+                <%= link_to 'Blog', all_posts_companies_path, :company_id => nil ,:class=>"nav-link js-scroll-trigger text-uppercase before-effect position-relative", id:"company_blog_for_index", data: { turbolinks: false }  %>
+              <% elsif user_signed_in? && !@company.try(:id).present? %>
+                <%= link_to 'Blog' , all_posts_companies_path ,:company_id => nil ,:class=>"nav-link js-scroll-trigger text-uppercase before-effect position-relative", data: { turbolinks: false } %>
+              <% else %>
+                <%= link_to 'Blog', all_posts_companies_path, :company_id => nil ,:class=>'nav-link js-scroll-trigger text-uppercase before-effect position-relative' , data: { turbolinks: false } %>
+              <%end%>
+            </li>
+            <% if !user_signed_in? %>
+              <li class="nav-item login-button">
+                <a class="nav-link js-scroll-trigger text-capitalize" href="<%= new_user_session_path %>">login</a>
+              </li>
+            <%else%>
+               <li class="nav-item login-button">
+                <a class="nav-link js-scroll-trigger text-capitalize" href="<%= admin_admin_index_path %>">Dashboard</a>
+              </li>
+            <%end%>
+
+           <!--  <li class="nav-item sign-button">
+              <a class="nav-link js-scroll-trigger text-capitalize" href="#">sign up</a>
+            </li>
+     -->
+          </ul>
+  </div>
+  </div>
+</nav>
+
+<!-- header HTML end -->

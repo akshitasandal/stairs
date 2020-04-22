@@ -1,0 +1,10 @@
+.container
+  h5  = "Title:"+ +"  "+ @testimonial.title
+  iframe src="#{@testimonial.content.gsub("watch?v=","embed/")}" width="400" height = "250px"
+  br/
+  /-if policy(@testimonial).edit?
+    /= link_to 'Edit', edit_company_testimonial_path(@company, @testimonial), :class => "waves-effect waves-light btn red accent-2"
+    '
+  end 
+  = link_to 'Back', :back,:class => "waves-effect waves-light btn red accent-2"
+br/

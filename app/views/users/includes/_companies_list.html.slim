@@ -1,0 +1,33 @@
+table.highlight.centered
+  thead
+    tr
+      th Name
+      th Owner name
+      th Website
+      th Primary email
+      /th Secondary email
+      /th Primary number
+      /th Secondary number
+      th Contact person
+      /th City
+      th Address
+      th Action
+
+  tbody
+      - @followed.each do |record|
+        tr
+          td = record.company.name
+          td = record.company.owner_name
+          td = record.company.website
+          td = record.company.primary_email
+          /td = record.company.secondary_email
+          /td = record.company.primary_contact_number
+          /td = record.company.secondary_contact_number
+          td = record.company.contact_person
+          /td = record.company.city.name
+          td = record.company.address
+          td = link_to 'Show', company_path(record.company.slug), :class => "btn red"
+          /-if is_super_admin?
+            td = link_to 'Edit', edit_company_path(record.company.slug), :class => "btn red"
+            /td = link_to 'Destroy', company_path(record.company.slug), data: { confirm: 'Are you sure?' }, method: :delete
+        end

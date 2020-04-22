@@ -1,0 +1,11 @@
+Stairs
+======
+This repository is dedicated to the development of project "Stairs".
+
+Installation
+============
+1) Clone this repo using Git or download it.
+2) Run bundle install in the directory of the project to install all the dependencies.
+3) Make your configurations for database, smtp etc.
+4) Run the database migrations and seeds.
+5) Run the project on webrick using "rails s"

@@ -1,0 +1,31 @@
+<div class="container">
+  <%if @testimonials.present? %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <!-- <th>Video</th> -->
+          <th colspan="2">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @testimonials.each do |testimonial| %>
+          <tr>
+            <td><%= testimonial.title %> </td>
+           <!--  <td>
+              <iframe src="#{testimonial.content}" width="150" height = "100px" ></iframe> </td> -->
+            <td><%= link_to 'show' , admin_company_testimonial_path(@company, testimonial) %></td>
+            <td> <%= link_to 'edit', edit_admin_company_testimonial_path(@company, testimonial)%> </td>
+            <td> <%= link_to 'Destroy',  admin_company_testimonial_path(@company, testimonial), data: { confirm: 'Are you sure?' }, method: :delete %> </td>
+          </tr>
+        <%end%>
+      </tbody>
+    </table>
+  <%else%>
+    <center>
+      <h5> No result Found </h5>
+    </center>
+  <%end%>
+  <%= link_to 'New Testimonial', new_admin_company_testimonial_path(@company) %>
+    <br>
+    <br>

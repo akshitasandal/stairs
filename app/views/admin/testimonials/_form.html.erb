@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-7">
+      <% if @testimonial.errors.any? %>
+        <div id="error_explanation" >
+          /h2 = "#{pluralize(@testimonial.errors.count, "error")} prohibited this album from being saved:"
+          <ul>
+            <% @testimonial.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <%end%>
+          </ul>
+        </div>
+      <%end%>
+      <%= form_for [:admin,@company, @testimonial] , html: { multipart: true, :class => "form-testimonials" } do |f| %>
+        <div class="form-group">
+          <%= f.label :title %>
+          <%= f.text_field :title , class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label "URL" %>
+          <%= f.text_field :content, class: "form-control" %>
+          <small>
+            | (You can add a Youtube/Vimeo/mp4 video url)
+          </small>
+        </div>
+        <% if params[:action] != "new" %>
+          <iframe  src="<%= @testimonial.content.gsub("watch?v=","embed/")%>" width="400" height="250"></iframe>
+        <%end%>
+        <div class="actions">
+          <%= f.submit %>
+        </div>
+      <%end%>
+    </div>
+  </div>
+</div>

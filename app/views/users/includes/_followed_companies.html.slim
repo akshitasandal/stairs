@@ -1,0 +1,11 @@
+.container-full
+  .row.center
+    -if @followed.present?  
+      = render "users/includes/companies_list"
+    -else
+      center 
+        h5 Followed Company Not Found
+    br/
+  center
+    /= will_paginate @followed
+    /= page_entries_info @followed

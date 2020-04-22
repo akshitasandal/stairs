@@ -1,0 +1,18 @@
+/*
+*= require dist/css/AdminLTE.min
+*= require dist/css/skins/skin-blue.min
+*= require bootstrap-tagsinput
+*= require bootstrap-multiselect
+*= require admin/summernote
+*= require admin/summernote-bs4
+*= require dataTables/jquery.dataTables
+*= require admin/select2.min
+*= require admin/lightbox
+*= require admin/custom
+*= require admin/companies
+*= require admin/blog_style
+
+*/
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import 'bootstrap-datetimepicker';

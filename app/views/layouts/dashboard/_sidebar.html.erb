@@ -1,0 +1,141 @@
+<!-- Left side column. contains the logo and sidebar -->
+    <!-- Sidebar Menu -->
+    <ul class="sidebar-menu" data-widget="tree">
+      <li class="header">Navigation</li>
+      <!-- Optionally, you can add icons to the links -->
+      <li id="manageCompanies">
+       <% if (is_super_admin? || is_admin?) %>
+        <a href="<%= admin_companies_path %>">
+          <i class="fa fa-building"></i>
+          <span>Companies</span>
+        </a>
+        <%end%>
+      </li>
+      <li id="managePosts">
+      <% if (is_super_admin?)%>
+        <a href="<%= admin_companies_posts_path %>" >
+          <i class="fa fa-newspaper-o"></i>
+          <span>Posts</span>
+        </a>
+      <%end%>
+      <% if (is_manager?)%>
+        <%if current_user.company.present? %>
+          <a href="<%= admin_company_blog_posts_path(:company_id => current_user.company.slug ) %>" >
+            <i class="fa fa-newspaper-o"></i>
+            <span>Posts</span>
+          </a>
+        <%else%>
+          <a href="<%= admin_companies_posts_path %>" >
+            <i class="fa fa-newspaper-o"></i>
+            <span>Posts</span>
+          </a>
+        <%end%>
+      <%elsif is_user? %>
+        <%if current_user.company.present? %>
+          <a href="<%= admin_company_blog_posts_path(:company_id => current_user.company.slug ) %>" >
+            <i class="fa fa-newspaper-o"></i>
+            <span>Posts</span>
+          </a>
+        <%else%>
+          <a href="<%= admin_companies_posts_path %>" >
+            <i class="fa fa-newspaper-o"></i>
+            <span>Posts</span>
+          </a>
+        <%end%>
+      <%elsif is_admin? %>
+        <%if current_user.company.present? %>
+          <a href="<%= admin_company_blog_posts_path(:company_id => current_user.company.slug ) %>" >
+            <i class="fa fa-newspaper-o"></i>
+            <span>Posts</span>
+          </a>
+        <%else%>
+          <a href="<%= admin_companies_posts_path %>" >
+            <i class="fa fa-newspaper-o"></i>
+            <span>Posts</span>
+          </a>
+        <%end%>
+      <%end%>
+    </li>
+
+      <li id="manageCategories">
+        <a href="<%= admin_post_categories_path %>" >
+          <i class="fa fa-certificate"></i>
+          <span>Post Categories</span>
+        </a>
+      </li>
+      <% if (!is_super_admin?) %>
+      <li id="">
+        <a href="<%= folllowed_companies_admin_users_path %>" >
+          <i class="fa fa-building"></i>
+          <span>Followed Companies</span>
+        </a>
+      </li>
+      <li id="">
+        <a href="<%= bookmarked_companies_admin_users_path %>" >
+          <i class="fa fa-bookmark"></i>
+          <span>Bookmarked Companies</span>
+        </a>
+      </li>
+      <li id="">
+        <a href="<%= followed_users_admin_users_path %>" >
+          <i class="fa fa-user-plus"></i>
+          <span>Followed Users</span>
+        </a>
+      </li>
+      <%end%>
+      <% if !is_super_admin? %>
+        <li><a href="<%= edit_multiple_admin_user_notification_preferences_path %>" >
+                <i class="fa fa-circle-o"></i>Edit User Preferences
+            </a>
+        </li>
+      <%end%>      
+      <li id="manageUsers">
+      <% if (is_super_admin? || is_admin?) %>
+        <a href="<%= admin_users_path %>" >
+          <i class="fa fa-users"></i>
+          <span>Users</span>
+        </a>
+      <%end%>
+      </li>
+      <li class="treeview">
+      <% if is_super_admin? %>
+          <a href="<%= "#" %>">
+          <i class="fa fa-pie-chart"></i>
+          <span>Control Panel</span>
+          </a>
+          <ul class="treeview-menu">
+              <li><a href="<%= role_admin_roles_path %>" >
+                <i class="fa fa-circle-o"></i>Roles
+              </a>
+              </li>
+              <li><a href="<%= admin_roles_path %>" >
+                <i class="fa fa-circle-o"></i>Assign Role Area
+              </a>
+              </li>
+              
+            </ul>
+      <%end%>
+      </li>
+
+     <!--  <li class="active">
+        <a href="<%#= admin_company_testimonials_path(@company) %>">
+          <i class="fa fa-object-ungroup"></i>
+          <span>Testimonials</span>
+        </a>
+      </li> -->
+      <!-- <li class="treeview">
+        <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
+          <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="#">Link in level 2</a></li>
+          <li><a href="#">Link in level 2</a></li>
+        </ul>
+      </li> -->
+    </ul>
+    <!-- /.sidebar-menu -->
+  </section>
+  <!-- /.sidebar -->
+

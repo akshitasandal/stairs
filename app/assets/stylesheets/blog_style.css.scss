@@ -1,0 +1,109 @@
+// Place all the styles related to the Blogs controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.blog{
+	background-color: #D3D3D3;
+}		  
+.blog_post_featured_image{
+	height: auto;
+	width: 100%;
+	position: left;
+ 	margin-top:20px;
+ 	margin-left:30px;
+ 	padding-left:30px;
+} 
+.blog_post_content{
+	word-break: break-word;
+	padding:20px;
+	width:100%;
+	text-align:left;
+}
+.col.l8.blog_post_content{
+	margin-top: 35px;
+}
+.pagination {
+	opacity:0;	
+}
+.blog_title{
+	font-size: 200%;
+}
+.single_featured_image {
+	width: 230px;
+  height: 230px;
+}
+.blog_body{
+	font-size: 120%;
+}
+.create-btn{
+	// background-color: #F44336;
+}
+#blog_post_body_content {
+	 word-wrap:break-word;	
+	 overflow-y: auto;
+}
+.post-image-div a img{
+	height:100%;
+	width:330px !important;
+}
+body .single-post-div{
+	margin-bottom:30px;
+}
+.single-post-div .blog_body a, a.read-more, a.read-more-bio, .triple-post-link {
+    color:#006064;
+    text-transform: uppercase;
+    padding-left: 6px;
+}
+body .single-post-div .card-link-color a, body .single-post-div .card-link-color a:hover{
+	color:#006064 !important;
+}
+.card-image.post-image-div a {
+    float: left;
+    width: 100%;
+    max-height: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating) {
+	color:#006064 !important;
+}
+.dubble-post-image-div a{
+	float: left;
+    width: 100%;
+    max-height: 180px;
+    height: 100%;
+    overflow: hidden;
+}
+span.card-title.triple-post-title {
+    float: left;
+    margin-top: 20px;
+    width: 100%
+}
+.card-link-color a{
+	margin-right:0px !important;
+}
+/*
+.card-action.card-link-color span {
+    margin: 0px 3px;
+}
+*/
+
+
+.card-image.top-post-image-div {
+    height: 230px;
+    overflow: hidden;
+}
+/* profile page css */
+
+.profile-company {
+    font-size: 22px;
+    margin-bottom: 5px;
+       font-weight: 500;
+}
+.profile-title-name {
+	font-size:22px;
+ }
+p.left.profile-name-text {
+    padding-top: 10px !important;
+}

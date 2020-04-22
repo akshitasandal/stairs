@@ -1,0 +1,15 @@
+br/
+h5.valign.center  #{@company.name}
+.container
+  .container
+    .col.s12.m12
+      .card.horizontal
+        .card-image
+          = image_tag @company.logo.url(:medium)
+        .card-stacked
+          .card-content
+            p = @company.overview
+          /.card-action
+            /-if policy(@company).edit?
+              = link_to 'Edit', edit_company_path(@company), :class => "btn waves-effect waves-light red accent-2"
+            end

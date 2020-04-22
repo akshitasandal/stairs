@@ -1,0 +1,22 @@
+h1 Listing albums
+table
+  thead
+    tr
+      th Name
+      th Description
+      th
+      th
+      th
+
+  tbody
+    - @albums.each do |album|
+      tr
+        td = album.name
+        td = album.description
+        td = link_to 'Show', company_album_path(@company, album)
+        /td = link_to 'Edit', edit_company_album_path(@company,album)
+        /td = link_to 'Destroy', company_album_path(@company, album), data: { confirm: 'Are you sure?' }, method: :delete
+ 
+br
+
+/= link_to 'New Album', new_company_album_path(@company)

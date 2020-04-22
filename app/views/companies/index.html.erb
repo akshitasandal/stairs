@@ -1,0 +1,180 @@
+<%= provide(:title, "Listing Companies") %>
+<div class="main">
+  <div class="company-banner-section">
+    <div class="banner-title">
+    <div class="container favourite-company better-company">
+      <h1>Know your</h1>
+      <h2>favourite companies better</h2>
+        <div class="banner-form">
+          <%= form_tag companies_path, :method => "get" ,  data: { turbolinks: false },  enforce_utf8: false  do %>
+            <div class="form-group">
+              <%= label_tag :locations %>
+              <%= select_tag 'city_id', options_for_select(@city.collect{ |u| u.name},  selected: params[:city_id]  ) , {:include_blank => 'Select Location', class: "form-control"}%>
+              <i class="fa fa-sort-down"></i>
+            </div>
+            <div class="form-group">
+              <%= label_tag :Categories %>
+              <%= select_tag 'functional_area_id',
+              options_for_select(@functional_area.collect{|a| a.name }, selected: params[:functional_area_id] ), {:include_blank => 'Select Category', class: "form-control"} %>
+              <i class="fa fa-sort-down"></i>
+            </div>
+            <span class="sort-slider">Sort</span> 
+            <div class="slideshow-container">
+              <div class="mySlides">
+                <h3>New Added</h3>
+              </div>
+              <div class="mySlides">
+               <h3>Most Viewed</h3>
+              </div>
+              <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+              <a class="next" onclick="plusSlides(1)">&#10095;</a>
+            </div>
+          <% end %>
+            <button type="submit" value="Search Companies" class="btn" id="generate-url" data-turbolinks="false">Search Companies</button>
+        </div>
+      </div>
+    </div><!-- banner-title -->
+  </div><!-- company-banner-section-->
+  <div class="container p-0">
+    <div class="company-second-section added-companies">
+      <h3><span class="position-relative">Recently Added Companies</span></h3>
+      <div class="popular-locations">
+        <ul>
+          <li>Popular Locations:</li>
+          <li><a href="#">Chandigarh </a></li>
+          <li><a href="#">Mohali</a></li>
+          <li><a href="#">Delhi </a></li>
+        </ul>
+      </div>
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          <% @recent_add.each do |recent_add|%>
+            <% if recent_add.present? %>
+              <div class="swiper-slide">
+                <div class=" company-blog-div">
+                  <a href="<%= company_path(recent_add)%>">
+                    <div class="company-inner-blog">
+                      <div class="blog-image">
+                        <% if recent_add.logo.present? %>
+                          <img src="<%= recent_add.logo.url %>">
+                        <%else%>
+                          <img src="/assets/<%= recent_add.cover_photo.url %>">
+                        <%end%>
+                      </div>
+                      <h4><%= recent_add.name %></h4>
+                      <p class="heading-text"><%= truncate(strip_tags(recent_add.overview), length: 100)+ "..."%></p>
+                      <p class="location-div"><span><i class="fa fa-map-marker" aria-hidden="true"></i><%= @city.find(recent_add.city_id).name %></span><i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                      </p>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            <%end%>
+          <%end%>
+        </div>
+        <div class="swiper-button-next"><i class="fa fa-arrow-right" aria-hidden="true"></i></div>
+        <div class="swiper-button-prev"><i class="fa fa-arrow-left" aria-hidden="true"></i></div>
+        <div class="swiper-scrollbar"></div>
+      </div>
+    </div><!-- added-companies -->
+  </div><!--container-->
+
+  <div class="container p-0">
+    <div class="brows-company-section">
+      <h3><span  class="position-relative">Browse Companies by Categories</span></h3>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="comp-categories">
+            <ul class="catogories-inner">
+              <li><a class="active" href="#">Information Technology</a></li>
+              <li><a href="#">DBA</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="comp-categories">
+            <ul class="catogories-inner">
+              <li><a href="#">Human Resources</a></li>
+              <li><a href="#">Networking</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="comp-categories">
+            <ul class="catogories-inner">
+              <li><a href="#">Software Development</a></li>
+              <li><a href="#">Networking</a></li>
+            </ul>
+          </div>
+        </div>
+      </div><!-- row-->
+    </div><!-- brows-company-section-->
+  </div><!-- container-->
+
+  <div class="container p-0">
+    <div class="company-second-section added-companies mt-0">
+      <h3 class="position-relative border-top-0"><span class="position-relative">Most Viewed Companies</span></h3>
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          <% @most_view.each do |most_view|%>
+            <% if most_view.present? %>
+              <div class="swiper-slide">
+                <div class=" company-blog-div">
+                  <a href="<%= company_path(most_view)%>">
+                    <div class="company-inner-blog">
+                      <div class="blog-image">
+                        <% if most_view.logo.present? %>
+                          <img src="<%= most_view.logo.url %>">
+                        <%else%>
+                          <img src="/assets/<%= most_view.cover_photo.url %>">
+                        <%end%>
+                      </div>
+                      <h4><%= most_view.name %></h4>
+                      <p class="heading-text"><%= truncate(strip_tags(most_view.overview), length: 100)+ "..."%></p>
+                      <p class="location-div"><span><i class="fa fa-map-marker" aria-hidden="true"></i><%= @city.find(most_view.city_id).name %></span><i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                      </p>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            <%end%>
+          <%end%>
+        </div>
+        <div class="swiper-button-next"><i class="fa fa-arrow-right" aria-hidden="true"></i></div>
+        <div class="swiper-button-prev"><i class="fa fa-arrow-left" aria-hidden="true"></i></div>
+        <div class="swiper-scrollbar"></div>
+      </div>
+    </div><!-- added-companies -->
+  </div><!--container-->
+</div><!-- main -->
+
+<script>
+
+    var slideIndex = 1;
+      showSlides(slideIndex);
+
+      function plusSlides(n) {
+        showSlides(slideIndex += n);
+      }
+
+      function currentSlide(n) {
+        showSlides(slideIndex = n);
+      }
+
+      function showSlides(n) {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        var dots = document.getElementsByClassName("dot");
+        if (n > slides.length) {slideIndex = 1}    
+        if (n < 1) {slideIndex = slides.length}
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";  
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex-1].style.display = "block";  
+        dots[slideIndex-1].className += " active";
+      }
+
+</script>

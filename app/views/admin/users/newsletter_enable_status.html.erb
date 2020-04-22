@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-7">
+    	<h3>Set Notification Status</h3>
+ 			<%= form_for update_newsletter_status_admin_users_path, :method => "patch" do |f| %>
+ 				<div class="form-group checkbox">
+          <label>
+          	<% status = @user.newsletter_enable_status == true ? true : false %>
+           	<%= f.check_box :newsletter_enable_status , :checked => status %>
+            <%= f.label :newsletter_enable_status %>
+          </label>
+        </div>
+         <div class="action">
+             <%= f.submit "Submit" , :class => "btn btn-primary" %>
+          </div>
+ 			<%end%>
+ 		</div>
+ 	</div>
+</div>

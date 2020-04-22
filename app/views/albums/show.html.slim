@@ -1,0 +1,27 @@
+.container
+  p
+    strong Name:
+    = @album.name
+  p
+    strong Description:
+    = @album.description
+  -if policy(@album).create?
+    /= link_to 'Edit |', edit_company_album_path(@company, @album)
+    = link_to ' Back', :back
+  end
+
+.container.album_wrap
+  .row
+    -@images.each do |i|
+      -if i.deleted == false 
+        .col.m4.album_image_wrap
+          .album_image.valign-wrapper
+            = link_to (i.image.url(:original)), :class=> "single_image" , :rel => 'album' , :data => {url: image_url(i.id)} do 
+              = image_tag(i.image.url(:medium), :class => "valign") 
+            end 
+            -if policy(@album).destroy?
+              span.delete_image_link
+                = link_to 'x', image_path(i.id), data: { confirm: 'Are you sure?' }, method: :delete 
+        end
+      end
+    end

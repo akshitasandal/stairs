@@ -1,0 +1,7 @@
+$('#see-all-tags-posts').append("<%= j render 'blog_posts/includes/see_all_posts'  %> ");
+<% if @blog_posts.next_page  %>
+  $('.pagination').replaceWith('<%= j will_paginate %>');
+<% else %>
+  $(window).off('scroll');
+  $('.pagination').remove();
+<%end %>

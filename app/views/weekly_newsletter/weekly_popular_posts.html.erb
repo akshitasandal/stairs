@@ -1,0 +1,58 @@
+<table width="70%" border="0" cellspacing="0" bgcolor="#FFFFFF" cellpadding="0" style="font-family:frutiger_normal,Arial,Helvetica,sans-serif;border:#dbdbdb solid 1px;font-size:12px">
+  <tbody>
+<tr>
+  <td bgcolor="#fff"><p> Dear Followers: <br>
+ Those are the lastest entries to our blog. We invite you to read and share everything we did on this week. </p></td>
+</tr>
+
+<% @popular_posts.each do |post| %>
+<div style="width:83%;float:left;padding:5px">
+      <tr style="display:flex; float:left; clear:both;">
+        <td>
+          <h3>
+            <div style="color:#cd4237;font-size:14px;text-decoration:none">
+            <%= post.title %>
+          </div>
+          </h3>
+       
+        </td>
+        <td style="display:flex; float:left; clear:both;">
+           
+        </td>
+          <div style="color:#000000;padding:7px 20px 0 0;font-size:12px">
+             <td> <% if strip_tags(post.body).length > 80 %>
+                <%= truncate(strip_tags(post.body), length: 80)+ "...." %>
+                <% @company = post.company %>
+                <%#= link_to "read more", blog_post_blog_posts_path(@company,@user, blog_post) %>
+              <% else %>
+                <%= strip_tags(post.body) %>
+              <% end %>
+            </td>
+          </div>
+            <p class="text-right">
+            <div style="color:#000000;padding:4px 0 0 0;font-size:14px">
+             <td> <% if post.user_id.present? %>
+                <% user_id = post.user_id %>
+                <% user = User.find_by_id(user_id) %>
+              <% end %>
+              <% if user.company.present? %>
+                <% company = user.company.slug %>
+              <% end %>
+              <%if user.first_name.present? %>
+                <% user = user.username %>
+              <% else %>
+                <% user = user.username %>
+              <% end %>
+              <%#= link_to (user), company_user_path( @company,user) %>
+              <%= user %>
+            <%#= link_to (time_ago_in_words(blog_post.created_at) +" ago"), blog_post_blog_posts_path(@company,@user, blog_post) %>
+            <%= time_ago_in_words(post.created_at) +" ago" %></p></td>
+            </div>
+      </div>
+      </tr>
+</div>
+<% end %>
+</tbody>
+<p><a href="#{@unsubscribe_url}">Unsubscribe</a></p>
+</table>
+

@@ -1,0 +1,297 @@
+<!-- second section start -->
+<div class="main">
+	<div class="first-section">
+		<div class="container ">
+			<div class="row">
+				<div class="col-md-4 col-sm-12 col-xs-12 p-0 post-left-section m-0">
+					<div class="post-inner-secion">
+						<div class="four-latest-posts-div">
+							<h3 class="text-white text-uppercase"><span class="position-relative">Latest post</span></h3>
+							<% @blog_posts.first(4).each do|blog_post| %>
+								<div class="posts_div">
+									<% if blog_post.present? %>
+										<% @company= blog_post.company %>
+										<% @user = User.find_by(:id => @company.user_id).username %>
+										<span>
+											<a href="<%= blog_post_blog_posts_path(@company, @user, blog_post)%>" class="text-white"><%=blog_post.title %><i class="fa fa-angle-right text-white font-weight-bold float-right" aria-hidden="true"></i></a>
+										</span>
+										<p class="posts-text">
+											<% if strip_tags(blog_post.body).length > 80 %>
+												<%= truncate(strip_tags(blog_post.body), length: 80)+ "..." %>
+												<% @company = blog_post.company %>
+								 			<% else %>
+								 				<%= strip_tags(blog_post.body) %>
+								 			<% end %>
+						 				</p>
+										<p class="text-right">
+										<span class="text-uppercase">
+											<% if blog_post.user_id.present? %>
+								    		<% user_id = blog_post.user_id %>
+								    		<% user = User.find_by_id(user_id) %>
+								    	<% end %>
+									    <% if user.company.present? %>
+									    	<% company = user.company.slug %>
+									    <% end %>
+								    	<%if user.first_name.present? %>
+								      	<% user = user.username %>
+								      <% else %>
+								    		<% user = user.username %>
+								    	<% end %>
+							    		<%#= link_to (user), company_user_path( @company,user) %>
+							    		<%= user %>
+										</span>
+										<%#= link_to (time_ago_in_words(blog_post.created_at) +" ago"), blog_post_blog_posts_path(@company,@user, blog_post) %>
+										<%= time_ago_in_words(blog_post.created_at) +" ago" %></p>
+									</div><!-- posts_div-->
+								<% end  %>
+							<% end %>
+						</div>
+						<div class="mCustomScrollbar" data-mcs-theme="dark">
+							<div class="all-latest-posts-div">
+								<% @blog_posts.each do|blog_post| %>
+									<div class="posts_div">
+										<% if blog_post.present? %>
+											<% @company= blog_post.company %>
+											<% @user = User.find_by(:id => @company.user_id).username %>
+											<span><%= link_to blog_post.title, blog_post_blog_posts_path(@company, @user, blog_post), class: "text-white "%><i class="fa fa-angle-right text-white font-weight-bold float-right" aria-hidden="true"></i>
+											</span>
+											<p class="posts-text">
+												<% if strip_tags(blog_post.body).length > 80 %>
+													<%= truncate(strip_tags(blog_post.body), length: 80)+ "..." %>
+													<% @company = blog_post.company %>
+													<%#= link_to "read more", blog_post_blog_posts_path(@company,@user, blog_post) %>
+									 			<% else %>
+									 				<%= strip_tags(blog_post.body) %>
+									 			<% end %>
+							 				</p>
+											<p class="text-right">
+											<span class="text-uppercase">
+												<% if blog_post.user_id.present? %>
+									    		<% user_id = blog_post.user_id %>
+									    		<% user = User.find_by_id(user_id) %>
+									    	<% end %>
+										    <% if user.company.present? %>
+										    	<% company = user.company.slug %>
+										    <% end %>
+									    	<%if user.first_name.present? %>
+									      	<% user = user.username %>
+									      <% else %>
+									    		<% user = user.username %>
+									    	<% end %>
+								    		<%#= link_to (user), company_user_path( @company,user), data: { turbolinks: false } %>
+								    		<%= user %>
+											</span>
+											<%#= link_to (time_ago_in_words(blog_post.created_at) +" ago"), blog_post_blog_posts_path(@company,@user, blog_post) %>
+											<%= time_ago_in_words(blog_post.created_at) +" ago" %></p>
+										</div><!-- posts_div-->
+									<% end  %>
+								<% end %>
+							</div>
+						</div>
+						<button type="button" class="btn btn-secondary load-more-btn">Load More</button>
+					</div><!-- post-inner-secion -->
+				</div><!-- post-left-section-->
+				<div class="col-md-8 col-sm-12 col-xs-12 pr-0 post-right-section">
+					<section class="container-fluid gallery bg-faded p-0">
+						<div class="grid main-grid">
+							<% if @trending_posts.present? %>
+								<% @style = ["grid__sizer first-image equal-heights", "grid__item--high second-image equal-div", "third-image equal-div" , "grid__item--high fourth-image equal-heights"] %>
+								<% @trending_posts.limit(4).zip(@style).each do |trending_post, style| %>
+									<% if trending_post.present? && style.present? %>
+				  						<a style="background-image:url('<%= trending_post.featured_image.url%>')" href="<%= blog_post_blog_posts_path(@company,@user, trending_post) %>" class="grid__item <%= style %>"> 
+				      					<span></span>
+					  					<!-- 	<%#if trending_post.featured_image.present? %>
+					      					<img class="position-relative"  alt="" />
+					      				<%#else%>
+					      					<img class="position-relative" src="/assets/missing.png" alt="" />
+					      				<%#end%> -->
+				  							<div class="post-image-text position-absolute">
+										  		<h3 class="text-white"><%= trending_post.title.capitalize %></h3>
+											  	<p class="text-white">
+											  		<% if strip_tags(trending_post.body).length > 80 %>
+														<%= truncate(strip_tags(trending_post.body), length: 80)+ "..." %>
+														<% @company = trending_post.company %>
+														<%#= link_to "read more", blog_post_blog_posts_path(@company,@user, blog_post) %>
+										 			<% else %>
+										 				<%= strip_tags(trending_post.body) %>
+										 			<% end %>
+												</p>
+												<ul>
+													<li class="text-white d-inline"><i class="fa fa-clock-o" aria-hidden="true"></i>
+													<% @date = trending_post.created_at %>
+													<%= @date.strftime("%B %d, %Y")  %>
+													</li>
+													<li class="text-white d-inline"><i class="fa fa-comment" aria-hidden="true"></i>11 Comments </li>
+												</ul>
+											</div><!-- post-image-text-->
+										</a>
+									<%end%>
+								<%end%>
+						  <% end %>
+						</div>
+					</section>
+					<!-- Modal -->
+				</div><!-- post-right-section--->
+				<div class="all-feature float-left w-100">
+					<a href="<%= trending_featured_posts_companies_path %>" class=" text-right text-uppercase">See all featured <i class="fa fa-angle-right font-weight-bold" aria-hidden="true"></i></a>
+				</div>
+			</div><!-- container -->
+		</div><!-- row-->
+	</div><!-- first-section -->
+
+<!-- second section start -->
+
+	<div class="second-section float-left w-100">
+		<div class="container p-0">
+            <% if BlogPost.first.present? && BlogPost.first.featured_image.present? %>
+				<h3 class=""><span>Lorem Ipsum is simply </span></h3>
+				<div class="row d-flex">
+					<div class="col-md-5 second-image-section">
+						<div class="blog-image">
+				            <% if BlogPost.first.featured_image.present? %>
+				              <img src="<%= BlogPost.first.featured_image.url %>">
+				            <%else%>
+				              <img src="/assets/missing.png">
+				            <%end%>
+			          	</div>
+					</div>
+					<div class="col-md-7 second-text-section">
+						<h4>First Blog Post</h4>
+						<p>
+							<%= truncate(strip_tags(BlogPost.first.body) , length: 250) %>
+						</p>
+						<div class="review float-left w-100">
+							<a href="<%= blog_post_blog_posts_path(@company, @user, BlogPost.first)%>" class="float-left d-block text-uppercase">Check us out <i class="fa fa-angle-right font-weight-bold" aria-hidden="true"></i></a>
+						</div>
+					</div>
+				</div>
+			<%end%>
+		</div><!-- container-->
+	</div><!-- second-section-->
+
+	<!-- third section start -->
+
+	<div class="third-section float-left w-100">
+		<div class="container p-0">
+			<div class="row">
+				<div class="col-md-5 third-left-section pr-0">
+					<img src="/assets/homepage/blogs-image.jpg" class="w-100">
+				</div>
+				<div class="col-md-7 third-right-section pl-0">
+					<%if @blog_posts.present? %>
+						<div class="blog-right-inner" style="background-color:#5c5d63;">
+							<h3 class="text-white"><%= @blog_posts.first.title %></h3>
+							<p>
+								<% if strip_tags(@blog_posts.first.body).length > 260%>
+									<%= truncate(strip_tags(@blog_posts.first.body), length: 260)+ "..." %>
+									<% @company = @blog_posts.first.company %>
+									<%#= link_to "read more", blog_post_blog_posts_path(@company,@user, blog_post) %>
+								<% else %>
+									<%= strip_tags(@blog_posts.first.body) %>
+								<% end %> 
+							</p>
+							<ul class="pl-0 mb-0">
+								<li class="d-inline"><i class="fa fa-comment
+									" aria-hidden="true"></i>21 Comments</li>
+								<li class="d-inline"><i class="fa fa-clock-o" aria-hidden="true"></i> November 22, 2017   </li>
+								<a href="<%= blog_post_blog_posts_path(@company, @user, @blog_posts.first)%>" class="float-right d-block text-uppercase text-white">Read More <i class="fa fa-angle-right font-weight-bold" aria-hidden="true"></i></a>
+							</ul>
+						</div>
+						<div class="blog-right-inner" style="">
+							<h3 class=""><%= @blog_posts.second.title %></h3>
+							<p>
+								<% if strip_tags(@blog_posts.second.body).length > 260%>
+									<%= truncate(strip_tags(@blog_posts.second.body), length: 260)+ "..." %>
+									<% @company = @blog_posts.second.company %>
+									<%#= link_to "read more", blog_post_blog_posts_path(@company,@user, blog_post) %>
+								<% else %>
+									<%= strip_tags(@blog_posts.second.body) %>
+								<% end %>
+								</p>
+							<ul class="pl-0 mb-0">
+								<li class="d-inline"><i class="fa fa-comment" aria-hidden="true"></i>21 Comments</li>
+								<li class="d-inline"><i class="fa fa-clock-o" aria-hidden="true"></i> November 22, 2017   </li>
+								<a href="<%= blog_post_blog_posts_path(@company, @user, @blog_posts.second)%>" class="float-right d-block text-uppercase text-black">Read More <i class="fa fa-angle-right font-weight-bold" aria-hidden="true"></i></a>
+							</ul>
+						</div>
+					<%end%>
+				</div>
+				<div class="see-all-button float-left w-100 position-relative">
+					<button type="button" onclick="window.location.href='<%= all_posts_companies_path %>'" class="btn text-uppercase">See all <i class="fa fa-angle-right" aria-hidden="true"></i></button>
+				</div>
+			</div><!-- row-->
+		</div><!-- container-->
+	</div><!-- third-section -->
+
+<!-- third section end -->
+	 <!-- post slider ---->
+      <section id="post-slider">
+        <div class="container">
+          <div id="myCarousel" class="carousel slide" data-ride="carousel">
+            <h4 class="right-line section-title"><span>ALL POSTS</span></h4>
+            <div class="carousel-inner">
+            	<%if @blog_posts.present?%>
+	              <% @blog_posts.each do|blog_post| %>
+		              <div class="carousel-item <%= @blog_posts.first.id == blog_post.id ? 'active' : ''%>">
+		                <div class="carousel-caption text-left">
+		                  <div class="row">
+		                    <div class="col-lg-1 col-md-12"></div>
+		                    <div class="col-lg-3 col-md-4">
+		                      <div class="post-avtar">
+		                        <div class="post-avtar-inner">
+		                        	<div class="post-avtar-image">
+			                        	<% if blog_post.featured_image.present? %>
+			                          	<img src="<%= blog_post.featured_image.url%>" alt="" title="" / > 
+			                          <%else%>
+			                          	<img src="<%= '/assets/missing.png' %>" >
+			                          <%end%>
+			                        </div>
+		                        </div>
+		                      </div>
+		                    </div>
+		                    <div class="col-lg-7 col-md-8">
+		                      <div class="post-decription">
+		                        <h1 class="text-white"><%= blog_post.title %></h1>
+		                        <div class="comments-date"><i class="fa fa-comment" aria-hidden="true"></i>
+		                        	20 comments
+		                        	<span>|</span> <i class="fa fa-clock-o" aria-hidden="true"></i><%= blog_post.created_at.strftime("%B %d, %Y") %></div>
+			                        <p><%= truncate(strip_tags(blog_post.body), length: 300) %></p>
+		                        <a class="read-more" href="<%= blog_post_blog_posts_path(@company, @user, blog_post)%>">Read More <i class="fa fa-angle-right font-weight-bold" aria-hidden="true"></i></a>
+		                      </div>
+		                    </div>
+		                    <div class="col-lg-1 col-md-12"></div>
+		                  </div>
+		                </div>
+		              </div>
+	             	<%end%>
+	            <%end%>
+            </div>
+            <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+              <span><img src="/assets/homepage/arrow-left.png"></span>
+            </a>
+            <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+              <span><img src="/assets/homepage/arrow-right.png" alt="" title="" / ></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
+        </div>
+      </section>
+</div> <!-- main-->
+<!-- .end modal -->
+
+<script>
+  $('.carousel').carousel({
+    interval: false,
+    wrap: false,
+  })
+</script>
+<!-- <style>
+	.all-latest-post-div {
+		 height:200px;
+    width:100px;
+    padding:5px;
+    border:1px solid black;
+	}
+</style> -->
+
+

@@ -1,0 +1,16 @@
+.section.center.blue-grey.lighten-5.zero-margin
+  br/
+  h5.red-text Most Veiwed
+  .container
+    .row
+      - @most_view.each do |most_view|
+        .col.m4.s12
+          .homepage_company_image
+            = link_to  company_path(most_view.slug)
+              = image_tag(most_view.logo.url(:original), :class=> "responsive-img"  )
+          .row.center 
+            h6.red-text #{most_view.name}
+      end 
+    .row.center
+      = button_to 'Read More', companies_path, method: :get, :params => {:orders => 'most_viewed'},:class =>"download-button btn-large waves-effect blue-grey red accent-2"
+      end

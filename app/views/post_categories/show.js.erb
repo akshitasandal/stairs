@@ -1,0 +1,7 @@
+$('#category-posts').append("<%= j render 'post_categories/includes/category_posts'%> ");
+<% if @blog_posts.next_page  %>
+  $('.pagination').replaceWith('<%= j will_paginate @blog_posts %>');
+<% else %>
+  $(window).off('scroll');
+  $('.pagination').remove();
+<%end %>

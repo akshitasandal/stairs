@@ -1,0 +1,23 @@
+<h2><center>Permission Area</center></h2>
+<%= form_tag admin_permissions_assign_path , id: "permissions_form" ,method: "post" do|f|%>
+  <div class="panel panel-default">
+  	<div class="panel-heading" align="left">Assign Role to User <div class="pull-right current_role"></div></div>
+  	<div class="panel-body">
+  		<div class="container">
+      	<div class="form-group"> 
+			    <label class="col-lg-2 ">Select Role</label>
+			    	<div class="col-lg-2" align="center">
+			    		<%= select_tag 'role_id',options_for_select(@role.map{|a| [ a.name, a.id]},  selected: params[:role_id]),{ :id => "role_id_new",:include_blank => "Select User", :disabled => false } %>
+			    	</div>
+				 	<br>
+
+					<div class="pull-right col-lg-4">
+						<div class="action">
+							<%= submit_tag "Change Role" ,class: "btn btn-success", name: nil %>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+<%end%>
+ 

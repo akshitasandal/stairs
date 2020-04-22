@@ -1,0 +1,54 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-7">
+    	<h3>Set User Preferences</h3>
+      <%= form_for admin_user_notification_preferences_path, :method => "patch" do |f| %>
+      	<div class="form-group checkbox">
+          <label>
+          	<% status = @notification.present? && @notification.first.status == true ? true : false %>
+           	<%= f.check_box :blog_post , :checked => status%>
+            <%= f.label :blog_post %>
+          </label>
+        </div>
+        <div class="form-group checkbox">
+          <label>
+          	<% status = @notification.present? && @notification.second.status == true ? true : false %>
+           	<%= f.check_box :follow , :checked => status %>
+            <%= f.label :follow %>
+          </label>
+        </div>
+        <div class="form-group checkbox">
+          <label>
+          	<% status = @notification.present? && @notification.third.status == true ? true : false %>
+           	<%= f.check_box :bookmark, :checked => status %>
+            <%= f.label :bookmark %>
+          </label>
+        </div>
+        <div class="form-group checkbox">
+          <label>
+          	<% status = @notification.present? && @notification.fourth.status == true ? true : false %>
+           	<%= f.check_box :subscribe, :checked => status %>
+            <%= f.label :subscribe %>
+          </label>
+        </div>
+        <div class="form-group checkbox">
+          <label>
+          	<% status = @notification.present? && @notification.fifth.status == true ? true : false %>
+           	<%= f.check_box :comment, :checked => status %>
+            <%= f.label :comment %>
+          </label>
+        </div>
+        <div class="form-group checkbox">
+          <label>
+          	<% status = @notification.present? && @notification[5].status == true ? true : false %>
+           	<%= f.check_box :weekly_newsletter, :checked => status%>
+            <%= f.label :weekly_newsletter %>
+          </label>
+        </div>
+        <div class="form-group checkbox">
+          <%= f.submit "Submit" , :class => "btn btn-primary" %>
+        </div>
+      <%end%>
+    </div>
+  </div>
+</div>

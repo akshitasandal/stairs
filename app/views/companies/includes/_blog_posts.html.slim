@@ -1,0 +1,54 @@
+.container
+  -@company.present?
+    - @blog_post.each do |blog_post|
+        .row
+            .col.l4.blog_post_featured_image
+              .blog_featured_image.valign-wrapper
+                /= link_to (blog_post.featured_image.url(:original)),  :class=> "single_featured_image" , :rel => 'blog' , :data => {url: image_url(blog_post.id)} do
+
+                -if blog_post.featured_image.present?
+                  -@company = blog_post.company
+                  = link_to image_tag(blog_post.featured_image.url(:medium), :class => "valign"), blog_post_companies_path(@company,blog_post ) ,data: { turbolinks: false }
+                -elsif blog_post.blog_post_images.present?
+                  -@company = blog_post.company
+                  = link_to image_tag(blog_post.blog_post_images.first.blog_post_image.url(:medium),:class => "valign"),blog_post_companies_path(@company,blog_post) ,data: { turbolinks: false }
+                -else
+                  - @company = blog_post.company
+                  = link_to image_tag("missing.png"),blog_post_companies_path(@company,blog_post) ,data: { turbolinks: false }
+            .col.l8.blog_post_content
+              p
+                .blog_title
+                  -@company = blog_post.company
+                  = link_to (blog_post.title),blog_post_companies_path(@company,blog_post),data: { turbolinks: false }
+              p
+                .blog_body
+                  - if strip_tags(blog_post.body).length > 200
+                    = truncate(strip_tags(blog_post.body), length: 200)+ "...."
+                    -@company = blog_post.company
+                    = link_to "read more", blog_post_companies_path(@company,blog_post)
+                  -else
+                    = strip_tags(blog_post.body)
+              - if blog_post.company.users.present?
+                -@user = blog_post.company.users[0]
+                = link_to (blog_post.company.users[0].first_name),user_path(@user)
+                = " | "
+              -else
+                -@company = blog_post.company
+                = link_to (blog_post.company.slug), company_path(@company)
+                = " | "
+              -if blog_post.tags.present?
+                - @tags=blog_post.tags.split(',')
+                -@company = blog_post.company
+                = raw(@tags.map{|tag| raw(link_to(tag, tag_name_companies_path(@company,:tag_name => [tag.parameterize].join("-"))))}.join(','))
+                = " | "
+              -@company = blog_post.company
+              = link_to (time_ago_in_words(blog_post.created_at) +" ago"), blog_post_companies_path(@company,blog_post)
+              = " | "
+              - if blog_post.post_categories.present?
+                - @post_category = blog_post.post_categories.map(&:name)
+              -@company = blog_post.company
+              - if @post_category.present?
+                = raw(@post_category.map{|cat| raw(link_to(cat,category_name_companies_path(@company,:category_name => [cat.parameterize].join("-"))))}.join(', '))
+              /= " | "
+center
+ /= will_paginate @blog_posts , :container => false

@@ -1,0 +1,7 @@
+<% if @followed.present?  %>
+  <%= render "admin/users/companies_list" %>
+<% else %>
+  <div class="center ">
+    <h5> Followed Company Not Found </h5>
+<br/>
+<%end%>

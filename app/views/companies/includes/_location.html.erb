@@ -1,0 +1,12 @@
+<div id="map"></div>
+	<script>
+  $(document).ready(function () {
+   
+    if("<%= @company.latitude %>" == "" &&  "<%= @company.longitude %>" == "") {
+    	show_map( 30.741482 , 76.768066)
+    }
+    else {
+  	 	show_map( "<%= @company.latitude %>", "<%= @company.longitude %>" )
+    }
+  })
+</script>

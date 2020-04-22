@@ -1,0 +1,42 @@
+// Place all the styles related to the Blogs controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.blog{
+	background-color: #D3D3D3;
+}		  
+.blog_post_featured_image{
+	height: auto;
+	width: 100%;
+	position: left;
+ 	margin-top:20px;
+ 	margin-left:30px;
+ 	padding-left:30px;
+} 
+.blog_post_content{
+	word-break: break-word;
+	padding:20px;
+	width:100%;
+	text-align:left;
+}
+.col.l8.blog_post_content{
+	margin-top: 35px;
+}
+
+.blog_title{
+	font-size: 200%;
+}
+.single_featured_image {
+	width: 230px;
+  height: 230px;
+}z
+.blog_body{
+	font-size: 120%;
+}
+.create-btn{
+	// background-color: #F44336;
+}
+#blog_post_body_content {
+	 word-wrap:break-word;	
+	 overflow-y: auto;
+}

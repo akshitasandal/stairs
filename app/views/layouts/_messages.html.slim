@@ -1,0 +1,6 @@
+- flash.each do |name, msg|
+  -if msg.is_a?(String)
+    javascript:
+      Materialize.toast("#{msg}", 4000)
+  end
+end

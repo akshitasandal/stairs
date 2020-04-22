@@ -1,0 +1,10 @@
+.top_bar.login-nav.red
+  .red.accent-2
+    .container
+      .right
+        -if user_signed_in?
+          a = link_to 'My Account', admin_admin_index_path, :class=>"white-text"
+        -else
+          a = link_to 'Sign in ', new_user_session_path, :class=>"white-text"
+          /a = link_to 'Sign up', new_user_registration_path, :class=>"white-text"
+          end

@@ -1,0 +1,65 @@
+<div class="company-second-section">
+  <h3><span class="position-relative">Lorem Ipsum</span></h3>
+    <div class="four-latest-posts-div">
+      <% @companies.first(3).in_groups_of(3).each do|companies| %>
+        <div class="row">
+          <% companies.each do|company|%>
+            <% if company.present? %>
+              <div class="col-md-4 company-blog-div">
+                <a href="<%= company_path(company)%>">
+                  <div class="company-inner-blog">
+                    <div class="blog-image">
+                      <% if company.logo.present? %>
+                        <img src="<%= company.logo.url %>">
+                      <%else%>
+                        <img src="/assets/<%= company.cover_photo.url%>" >
+                      <%end%>
+                    </div>
+                    <h4><%= company.name%></h4>
+                    <p class="heading-text"><%= truncate(company.overview, length: 200) %></p>
+                    <p class="location-div"><span><i class="fa fa-map-marker" aria-hidden="true"></i><%= company.city.name %></span><i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                    </p>
+                  </div>
+                </a>
+              </div><!-- company-blog-div-->
+            <%end%>
+          <%end%>
+        </div><!-- row-->
+      <%end%>
+    </div>
+    <div class="all-latest-posts-div">
+      <% @companies.in_groups_of(3).each do|companies| %>
+        <div class="row">
+          <% companies.each do|company|%>
+            <% if company.present? %>
+              <div class="col-md-4 company-blog-div">
+                <a href="<%= company_path(company)%>">
+                  <div class="company-inner-blog">
+                    <div class="blog-image">
+                      <% if company.logo.present? %>
+                        <img src="<%= company.logo.url %>">
+                      <%else%>
+                        <img src="/assets/<%= company.cover_photo.url%>" >
+                      <%end%>
+                    </div>
+                    <h4><%= company.name%></h4>
+                    <p class="heading-text"><%= truncate(company.overview, length: 200) %></p>
+                    <p class="location-div"><span><i class="fa fa-map-marker" aria-hidden="true"></i><%= company.city.name %></span><i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                    </p>
+                  </div>
+                </a>
+              </div><!-- company-blog-div-->
+            <%end%>
+          <%end%>
+        </div><!-- row-->
+      <%end%>
+    </div>
+      <!-- <div class="blog-load-btn">
+        <button type="button" class="btn">Load more <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
+      </div> -->
+      <% if @companies.present? && @companies.count > 3 %>
+        <div class="blog-load-btn load-more-btn">
+          <button type="button" class="btn">Load more <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
+        </div>
+      <%end%>
+</div>

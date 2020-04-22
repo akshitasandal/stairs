@@ -1,0 +1,8 @@
+.container
+  h5  = "Title:"+ +"  "+ @testimonial.title
+  iframe src="#{@testimonial.content.gsub("watch?v=","embed/")}" width="400" height = "250px"
+  br/
+  = link_to 'Edit', edit_admin_company_testimonial_path(@company, @testimonial)
+  = "  |  "
+  = link_to 'Back', :back
+br/

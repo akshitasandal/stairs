@@ -1,0 +1,38 @@
+/= text_field_tag :search, params[:search], placeholder: 'Search anything',  :id => 'SearchSearch'
+/.container 
+	input name=nil type="submit" value="All" id="search-all" class="btn red center-align search-margin" data-turbolinks="false"
+	= "  "
+	input name=nil type="submit" value="Posts" id="search-blog-post" class="btn red center-align search-margin" data-turbolinks="false"
+	= " "
+	input name=nil type="submit" value="Companies" id="search-companies" class="btn red center-align search-margin" data-turbolinks="false"
+	= " "
+	input name=nil type="submit" value="Users" id="search-users" class="btn red center-align search-margin" data-turbolinks="false"
+
+/.all-filter-content
+	.companies-filter-content
+		-if @companies.present? && params[:search].present?
+			== render 'companies/includes/companies'
+	.users-filter-content
+		-if @users.present? && params[:search].present?
+			== render 'users/users'
+	ul 	
+.designers_list
+== render 'blog_posts/includes/show_blog_posts'
+		/- if @tag_posts.present?
+			- @blog_posts = @tag_posts
+			== render 'blog_posts/includes/show_blog_posts'
+		/- if @category_posts.present?
+			- @blog_posts = @category_posts
+			== render 'blog_posts/includes/show_blog_posts'
+		- if @private_posts.present? && !params[:search].present?
+			== render 'blog_posts/includes/private_posts'
+		/- if @private_blog_posts.present?
+			- @private_posts = @private_blog_posts  
+			== render 'blog_posts/includes/private_posts'
+		/- if @private_tag_posts.present?
+			- @private_posts = @private_tag_posts  
+			== render 'blog_posts/includes/private_posts'
+		/- if @private_category_posts.present?
+			- @private_posts = @private_category_posts  
+			== render 'blog_posts/includes/private_posts'
+

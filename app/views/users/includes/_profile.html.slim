@@ -1,0 +1,112 @@
+
+= content_for :title
+  = "Profile"
+.container
+    .row
+      .col.s12.m6
+        .card.profile-user-post.left
+          .card-image.top-post-image-div
+            = image_tag @user.avatar.url(:medium)
+          .card-content.left
+            - if @user.first_name.present? || @user.last_name.present?
+              strong.profile-title-name.red-text = @user.first_name + " "+ @user.last_name
+            -if @user.present? &&  current_user.present? && @user.id != current_user.id
+              - follow_text = ( @follow_status == 0 ) ? "follow" : "unfollow" 
+              .right
+                = link_to follow_text, "javascript:void(0);", :id => "follow_user_button", 'data-user' => @user.id, :class => "btn red #{follow_text}"
+              | &nbsp;&nbsp;
+              br/
+              /p.left.profile-name-text = @user.bio
+              - if @user.bio.present? && strip_tags(@user.bio).length > 180
+                .word-limit-overview-bio.left
+                  = truncate(strip_tags(@user.bio), length: 180)
+                  = link_to ".....read more", "", class: "read-more-bio"
+                .card-class-bio.left
+                  = strip_tags(@user.bio)
+                  = link_to "....read less", "" , class: "read-less-bio"
+              -else
+                = strip_tags(@user.bio)
+            /.card-action
+              /= link_to 'Edit Profile', edit_user_registration_path
+              /-if @company_count == 0 || is_super_admin?
+                = link_to 'Add Company', new_company_path
+              /-else
+                = link_to 'Show Company',company_path(current_user.company.slug) 
+      .col.s12.m6 
+        -if @user.company.present?
+          .card.profile-user-post
+            .card-image.top-post-image-div
+              = link_to image_tag(@user.company.logo.url(:medium)), company_path(@user.company.slug)
+            .card-content
+              .profile-company.red-text
+                = @user.company.name 
+              - if strip_tags(@user.company.overview).length > 200
+                .word-limit-overview
+                  = truncate(strip_tags(@user.company.overview), length: 200)
+                  = link_to ".....read more", "", class: "read-more "
+                .card-class
+                  = strip_tags(@user.company.overview)
+                  = link_to "....read less", "" , class: "read-less"
+              -else
+                = strip_tags(@user.company.overview)
+        -else
+          br/
+          h6.valign.center No Companies found
+    h5.red-text.valign User Posts
+    -if @blog_posts.present? 
+      - @blog_posts.in_groups_of(3).each do |blog_posts|
+        .row
+          -blog_posts.each do|blog_post|
+            -if blog_post.present?
+              .col.s12.m4
+                  .card.profile-user-post
+                    .card-image.dubble-post-image-div
+                          /= link_to (blog_post.featured_image.url(:original)),  :class=> "single_featured_image" , :rel => 'blog' , :data => {url: image_url(blog_post.id)} do
+                          -if blog_post.featured_image.present?
+                            -@company = blog_post.company
+                            = link_to image_tag(blog_post.featured_image.url(:original), :class => "valign"), blog_post_blog_posts_path(@company,@user,blog_post ) ,data: { turbolinks: false }
+                          -elsif blog_post.blog_post_images.present?
+                            -@company = blog_post.company
+                            = link_to image_tag(blog_post.blog_post_images.first.blog_post_image.url(:medium),:class => "valign"),blog_post_blog_posts_path(@company,@user,blog_post) ,data: { turbolinks: false }
+                          -else
+                            - @company = blog_post.company
+                            = link_to image_tag("missing.png"),blog_post_blog_posts_path(@company,@user, blog_post),data: { turbolinks: false }
+
+                    .card-content
+                      span.card-title.triple-post-title 
+                        -@company = blog_post.company
+                        strong.profile-title-name.red-text = link_to (blog_post.title),blog_post_blog_posts_path(@company, @user, blog_post),class:"red-text", data: { turbolinks: false }
+                      p
+                        - if strip_tags(blog_post.body).length > 200
+                          = truncate(strip_tags(blog_post.body), length: 200)+ "...."
+                          -@company = blog_post.company
+                          = link_to "read more", blog_post_blog_posts_path(@company,@user, blog_post),class:"triple-post-link"
+                        -else
+                          = strip_tags(blog_post.body)
+                      .card-action.card-link-color
+                        - if blog_post.user_id.present?
+                          -user_id = blog_post.user_id
+                          -user = User.find_by_id(user_id)
+                          - if user.company.present? 
+                            - company = user.company.slug
+                          -if user.first_name.present?
+                            -user = user.username
+                          -else
+                            -user = user.username
+                          span = link_to (user), company_user_path( @company,user), data: { turbolinks: false }
+                          = " | "
+                        -if blog_post.tags.present?
+                          - @tags=blog_post.tags.split(',')
+                          -@company = blog_post.company
+                          span = raw(@tags.map{|tag| raw(link_to(tag, tag_name_blog_posts_path(@company,:tag_name => [tag.parameterize].join("-"))))}.join(', '))
+                          = " | "
+                        -@company = blog_post.company
+                        span = link_to (time_ago_in_words(blog_post.created_at) +" ago"), blog_post_blog_posts_path(@company,@user, blog_post)
+                        = " | "
+                        - if blog_post.post_categories.present?
+                        - @post_category = blog_post.post_categories.map(&:name)
+                        -@company = blog_post.company
+                          span = raw(@post_category.map{|cat| raw(link_to(cat,category_name_blog_posts_path(@company,:category_name => [cat.parameterize].join("-"))))}.join(', '))
+                        /= " | "
+    -else
+      h5.center No posts found

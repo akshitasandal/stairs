@@ -1,0 +1,127 @@
+<% provide(:title, "Company | " + @company.name) %>
+<!-- <div class="main"> -->
+<!--banner section ---->
+<section id="tabs-banner-section">
+  <div>
+    <div class="container">
+      <div class="row no-gutters">
+        <div class="col-md-3 col-sm-4 nav-tabs-bg">
+          <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link active" id="v-pills-overview-tab" data-toggle="pill" href="#v-pills-overview" role="tab" aria-controls="v-pills-home" aria-selected="true"><span>Overview</span></a>
+            <a class="nav-link" id="v-pills-details-tab" data-toggle="pill" href="#v-pills-details" role="tab" aria-controls="v-pills-profile" aria-selected="false"><span>Details</span></a>
+            <a class="nav-link" id="v-pills-loaction-tab" data-toggle="pill" href="#v-pills-location" role="tab" aria-controls="v-pills-messages" aria-selected="false"><span>Location</span></a>
+          </div>
+        </div>
+        <div class="col-md-9 col-sm-8 tab-content-bg">
+          <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="v-pills-overview" role="tabpanel" aria-labelledby="v-pills-overview-tab">
+              <div class="row">
+                <div class="col-md-6">
+                  <h1>Lorem Ipsum</h1>
+                </div>
+                <div class="col-md-6">
+                  <% if user_signed_in? %>
+                    <div class="subscribe-buttons">
+                      <% follow_text = ( @follow_status == 0 ) ? "subscribe" : "unsubscribe" %> 
+
+                      <a href="javascript:void(0);" class="btn <%= follow_text %>" data-company='<%= @company.id %>' id="follow_button" title="Select-subscribe"><%= follow_text %></a>
+                      <% if @bookmark_status == 0 %>
+                        <a href="#" class="bookmark bookmark_button" data-company='<%= @company.id%>' ><i class="fa fa-bookmark-o" title="bookmark" aria-hidden="true"></i></a>
+                      <%else%>
+                        <a href="#" class="unbookmark bookmark_button" data-company='<%= @company.id%>' ><i class="fa fa-bookmark" title="unbookmark" aria-hidden="true"></i></a>
+                      <%end%>
+                    </div>
+                  <% end %>
+   
+                </div>
+              </div>
+              <div class="bigtext read-more-text">
+                <p><%= strip_tags(@company.overview) %></p>
+              </div>
+              <div class="read-less-text bigtext">
+                <p><%= truncate(strip_tags(@company.overview), length: 400) %></p>
+              </div>
+              <a class="read-more">Read More<i class="fa fa-chevron-down" aria-hidden="true"></i></a>
+              <a class="read-less">Read Less<i class="fa fa-chevron-up" aria-hidden="true"></i></a>
+            </div>
+            <div class="tab-pane fade" id="v-pills-details" role="tabpanel" aria-labelledby="v-pills-details-tab">
+              <% if @company.present? %>
+                <h1><%= @company.name%></h1>
+                <table class="company-details-table" colspann="0" rowspan="0" border="0">
+                  <tbody>
+                    <%= render 'companies/includes/company_detail' %>
+                  </tbody>
+                </table>
+              <%end%>
+            </div>
+            <div class="tab-pane fade location-tab" id="v-pills-location" role="tabpanel" aria-labelledby="v-pills-location-tab">
+              <!-- <div id="map"> -->
+              <!-- <div class="embed-responsive embed-responsive-16by9">
+              <iframe class="embed-responsive-item" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3430.250697779677!2d76.68776721470148!3d30.711351881644607!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390fee5570d79905%3A0xed9e2f79535c8a94!2sUimatic!5e0!3m2!1sen!2sin!4v1531477518274" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe> -->
+             <%= render 'companies/includes/location'%>
+              <!-- </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- bottom company posts section ---->
+<section id="company-posts">
+  <div class="container">
+    <div class="">
+      <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+          <a class="nav-item nav-link active" id="nav-company-users-tab" data-toggle="tab" href="#company-users" role="tab" aria-controls="company-users" aria-selected="true">Company Users</a>
+          <a class="nav-item nav-link" id="nav-company-profile-tab" data-toggle="tab" href="#company-profile" role="tab" aria-controls="company-profile" aria-selected="false">Company Posts</a>
+        </div>
+      </nav>
+      <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane company-users-tab fade show active" id="company-users" role="tabpanel" aria-labelledby="nav-company-users-tab">
+          <h1 class="company-post-main-title">Users</h1>
+          <% @users.in_groups_of(3).each do|users| %>
+            <div class="row">
+              <% users.each do|user| %>
+                <% if user.present? %>
+                  <div class="col-md-4 company-blog-div">
+                    <div class="company-inner-blog">
+                      <% first_name = user.first_name %>
+                      <% last_name = user.last_name %>
+                      <% if first_name.present? && last_name.present? %>
+                        <h3><%= first_name+ " " +last_name %></h3>
+                      <%else%>
+                         <h3><%= user.username %></h3>
+                      <%end%>
+                      <table class="usr-prfl" cellpadding="0" cellspacing="0" border="0">
+                        <tbody>
+                          <tr>
+                            <td width="92px" class="lt-side">User name</td>
+                            <td class="rt-side"><%= user.username %></td>
+                          </tr>
+                          <tr>
+                            <td class="lt-side">Email</td>
+                            <td class="rt-side"><%= user.email %></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <% company = user.company %>
+                      <a href="<%= company_user_path(company, user) %>" class="view-profile">View Profile</a>
+                    </div>
+                  </div>
+                <% end %>
+              <% end %>
+            </div><!-- row ends --->
+          <% end %>
+        </div>
+        <div class="tab-pane fade" id="company-profile" role="tabpanel" aria-labelledby="nav-company-profile-tab">
+          <div id="companies-posts">
+            <%= render 'companies/includes/company_posts'%>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<%= will_paginate @company_posts %>
+  
+</section>

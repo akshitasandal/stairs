@@ -1,0 +1,16 @@
+.section.center.zero-margin
+  br/
+  h5.red-text Recently Added
+  br/
+  .container
+    .row
+      -@recent_add.each do |recent_add|
+        .col.m4.s12
+          .homepage_company_image
+            = link_to  company_path(recent_add.slug)
+              = image_tag(recent_add.logo.url(:original), :class=> "responsive-img"  )
+          .row.center
+            h6.red-text #{recent_add.name}
+      end
+    .row.center
+      = button_to 'Read More', companies_path, method: :get, :params => {:orders => 'new_added'},:class =>"download-button btn-large waves-effect blue-grey red accent-2"
